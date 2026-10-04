@@ -5535,7 +5535,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <ul>
           <li>&bull; Shared K, V are expanded via repeat_interleave to num_query_heads</li>
           <li>&bull; Attention is standard: each query head sees one K, V head</li>
-          <li>&bull; No retraining needed when changing groups</li>
+          <li>&bull; Changing the group count needs uptraining (mean-pool K/V heads, ~5% of pretraining compute)</li>
         </ul>
       </div>
 
@@ -5548,6 +5548,20 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <li>&bull; MHA caches num_heads separate K, V</li>
           <li>&bull; MQA caches only 1 shared K, V</li>
           <li>&bull; GQA interpolates between the two extremes</li>
+        </ul>
+      </div>
+
+      <!-- card:excalidraw-sync -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>Worked: H_kv = H_Q / 4</h3>
+        </div>
+        <ul>
+          <li>&bull; Llama 3 8B: 32 query heads, 8 K/V heads, group size g = 4</li>
+          <li>&bull; 128 KiB per token vs 512 KiB for MHA: cache &divide; 4 (512 MB vs 2 GB at 4K)</li>
+          <li>&bull; Decode also reads 4&times; fewer KV bytes per step</li>
+          <li>&bull; Stacks with CLA, FP8 KV and TransMLA: <a href="../viewer/excalidraw.html?file=gqa" target="_blank" rel="noopener">GQA drawing, section 10 &#8599;</a></li>
         </ul>
       </div>
     </div>

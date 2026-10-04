@@ -5573,6 +5573,19 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <li>&bull; 2-4x throughput lift at the same hardware</li>
         </ul>
       </div>
+
+      <!-- card:excalidraw-sync -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>In a Real Engine</h3>
+        </div>
+        <ul>
+          <li>&bull; Continuous batching, chunked prefill, preemption and offload build on paging</li>
+          <li>&bull; Prefix caching reuses blocks across requests (vLLM APC, SGLang RadixAttention)</li>
+          <li>&bull; Drawings: <a href="../viewer/excalidraw.html?file=paged_attention" target="_blank" rel="noopener">PagedAttention &#8599;</a> &middot; <a href="../viewer/excalidraw.html?file=kv_memory_management" target="_blank" rel="noopener">KV memory &#8599;</a> &middot; <a href="../viewer/excalidraw.html?file=serving_scheduler" target="_blank" rel="noopener">scheduler &#8599;</a></li>
+        </ul>
+      </div>
     </div>
 
   </div>

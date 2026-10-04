@@ -5565,6 +5565,20 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <li>&bull; MLA (latent=64, rope=16) @ 2K: ~3.75 MB</li>
         </ul>
       </div>
+
+      <!-- card:excalidraw-sync -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>One Term per Technique</h3>
+        </div>
+        <ul>
+          <li>&bull; H_kv: GQA / MQA &middot; H_kv&middot;d_h: MLA &middot; L: cross-layer sharing (CLA, YOCO)</li>
+          <li>&bull; dtype_bytes: FP8 / INT4 / NVFP4 KV &middot; seq_len: sliding window, eviction</li>
+          <li>&bull; Worked numbers for every technique: <a href="../viewer/excalidraw.html?file=kv_cache_sota_map" target="_blank" rel="noopener">KV cache SOTA map &#8599;</a></li>
+          <li>&bull; Worked example and VRAM budget: <a href="../viewer/excalidraw.html?file=memory" target="_blank" rel="noopener">memory &#8599;</a> &middot; <a href="../viewer/excalidraw.html?file=vram_budget_a100" target="_blank" rel="noopener">A100 budget &#8599;</a></li>
+        </ul>
+      </div>
     </div>
 
   </div>

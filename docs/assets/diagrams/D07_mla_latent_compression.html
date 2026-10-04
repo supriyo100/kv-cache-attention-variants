@@ -5542,6 +5542,20 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <li>&bull; Maintaining positional info requires the separate path</li>
         </ul>
       </div>
+
+      <!-- card:excalidraw-sync -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>Retrofit an Existing Model</h3>
+        </div>
+        <ul>
+          <li>&bull; MHA2MLA: MHA checkpoint &rarr; partial RoPE + joint SVD of [W_K; W_V] (arXiv 2502.14837)</li>
+          <li>&bull; TransMLA: GQA checkpoint &rarr; MLA; GQA with H_kv = H_Q/4 is already MLA with a 2048-wide latent</li>
+          <li>&bull; Compress to d_c + d_R = 512 + 64 = 576, then a short fine-tune (arXiv 2502.07864)</li>
+          <li>&bull; Every matrix shape, step by step: <a href="../viewer/excalidraw.html?file=mla" target="_blank" rel="noopener">MLA drawing, sections 9 and 14 &#8599;</a></li>
+        </ul>
+      </div>
     </div>
 
   </div>
