@@ -6,6 +6,7 @@ on:
     paths:
       - "docs/**"
       - "mkdocs.yml"
+      - "hooks/**"
       - "teaching_notebooks/**"
       - "pyproject.toml"
       - ".github/workflows/docs.yml"

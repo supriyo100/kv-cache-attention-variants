@@ -95,6 +95,10 @@ console.print(table)
 
 
 
+![MLA: every matrix with its shape, latent cache + decoupled RoPE](../assets/excalidraw/mla.svg){ .excalidraw }
+
+[D07 · MLA latent compression](../assets/diagrams/D07_mla_latent_compression.html){ .diagram }
+
 ## Incremental decode equivalence check
 
 Decoding with the cached latent (`past_kv`) must produce cache growth
@@ -129,11 +133,30 @@ flowchart LR
 ```
 
 
+## Retrofitting an existing model: MHA2MLA and TransMLA
+
+MLA does not have to be trained from scratch. Two conversion methods start from a pretrained
+checkpoint (sections 9 and 14 of the drawing above):
+
+| Method | Starts from | How | Paper |
+|---|---|---|---|
+| GQA uptraining | MHA | mean-pool K/V heads into groups, ~5% of pretraining compute | arXiv 2305.13245 |
+| MHA2MLA | MHA | partial RoPE + joint SVD of $[W_K; W_V]$ into a latent, then fine-tune | arXiv 2502.14837 |
+| TransMLA | GQA | rewrite GQA as MLA, decouple RoPE, compress the latent, short fine-tune | arXiv 2502.07864 |
+
+**Why GQA converts cleanly.** In GQA with $H_{kv} = H_Q/4$, each cached K/V head is copied to
+4 query heads. That copy is a fixed up-projection, so GQA is already MLA with a latent of
+$2 \cdot H_{kv} \cdot d_h = 2048$ elements per token per layer (Llama-3-8B shape), and the
+outputs are identical. TransMLA then moves positional information into a small shared RoPE key,
+compresses the latent with PCA to $d_c = 512$ (plus $d_R = 64$ for RoPE, 576 in total, about
+3.6× smaller than GQA), and fine-tunes briefly. The result runs on MLA kernels such as FlashMLA.
+
+
 ## Recap
 
 MLA decouples cache size from `num_heads` entirely — a different axis of
 compression than GQA/MQA's head-sharing. This is what lets DeepSeek-V2/V3
 serve very long contexts cheaply while keeping many query heads for quality.
 
-You are now ready to move to `07_rope.ipynb`.
+**Next:** [Session 07 — RoPE](07_rope.md)
 

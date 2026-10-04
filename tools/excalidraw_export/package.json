@@ -1,0 +1,12 @@
+{
+  "name": "excalidraw-export",
+  "private": true,
+  "description": "Export docs/assets/excalidraw/*.excalidraw to SVG for the docs site",
+  "type": "module",
+  "scripts": {
+    "export": "node export.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.48.0"
+  }
+}

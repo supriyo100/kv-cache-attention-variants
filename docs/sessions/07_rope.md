@@ -58,6 +58,10 @@ print("rotation preserves vector norm (rotation is orthogonal):",
     rotation preserves vector norm (rotation is orthogonal): True
 
 
+![RoPE: the math and the shapes](../assets/excalidraw/rope.svg){ .excalidraw }
+
+[D08 · RoPE rotation flow](../assets/diagrams/D08_rope_rotation.html){ .diagram }
+
 ## Incremental rotation matches full recompute
 
 Rotating a single new token at `offset=seq_len` must match rotating the full
@@ -125,7 +129,7 @@ plt.show()
 
 
     
-![png](07_rope_files/07_rope_7_0.png)
+![png](../assets/images/07_rope_rotation.png)
     
 
 
@@ -145,11 +149,13 @@ flowchart LR
 ```
 
 
+[D09 · Context extension: Linear, NTK, YaRN](../assets/diagrams/D09_rope_context_extension.html){ .diagram }
+
 ## Recap
 
 RoPE encodes relative position via rotation, and extension strategies adapt
 it for longer-than-trained contexts. This is the position mechanism every
 attention variant in this course (MHA/GQA/MQA/MLA) can be combined with.
 
-You are now ready to move to `08_flashattention.ipynb`.
+**Next:** [Session 08 — FlashAttention](08_flashattention.md)
 

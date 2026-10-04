@@ -17,8 +17,8 @@ Locally on CPU/MPS we can't run the real fused CUDA kernel, so this notebook
 teaches the *concept* via PyTorch's SDPA backend selection
 (`torch.nn.attention.sdpa_kernel`), which dispatches to different
 implementations of the identical math. The real CUDA FlashAttention-2 kernel
-benchmark lives in `colab/session08_flashattention_colab.ipynb` (GPU
-required) -- local results here are backend/device dependent, so grade on
+benchmark is a GPU-only Colab notebook in the upstream course (not published
+in this repo) -- local results here are backend/device dependent, so grade on
 methodology, not absolute numbers.
 
 
@@ -68,6 +68,10 @@ console.print(table)
 
 
 
+[D10 · FlashAttention IO-aware tiling](../assets/diagrams/D10_flashattention_tiling.html){ .diagram }
+
+![Roofline: why decode is memory-bound and prefill is compute-bound](../assets/excalidraw/roofline.svg){ .excalidraw }
+
 ## Try it yourself
 
 Increase `seq_len` above (e.g. 2048, 4096) and rerun -- on a real CUDA GPU
@@ -107,5 +111,5 @@ FlashAttention is a systems optimization, not a math change -- output is
 numerically identical to naive attention. Notebook 9 makes that equivalence
 explicit for the general SDPA migration.
 
-You are now ready to move to `09_pytorch_sdpa.ipynb`.
+**Next:** [Session 09 — PyTorch SDPA](09_pytorch_sdpa.md)
 

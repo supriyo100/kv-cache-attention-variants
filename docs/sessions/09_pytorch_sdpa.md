@@ -67,6 +67,8 @@ console.print(table)
 
 
 
+[D11 · PyTorch SDPA backend dispatch](../assets/diagrams/D11_sdpa_backend_dispatch.html){ .diagram }
+
 ## Live migration exercise
 
 Take the Session-3-style manual MHA math and replace it with SDPA, verifying
@@ -111,5 +113,5 @@ attention math, and every attention variant module in this repo
 (`mha.py`/`mqa.py`/`gqa.py`/`gqa.py`-based MQA/`mla.py`) already calls it
 internally -- this notebook made that migration explicit and provable.
 
-You are now ready to move to `10_pagedattention_vllm.ipynb`.
+**Next:** [Session 10 — PagedAttention / vLLM](10_pagedattention_vllm.md)
 

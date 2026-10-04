@@ -52,3 +52,6 @@ kv-cache-attention-variants-module.md
 
 # graphify generated output
 graphify-out/
+
+# Excalidraw SVG export tool
+tools/excalidraw_export/node_modules/

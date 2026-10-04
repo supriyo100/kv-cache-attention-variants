@@ -1,9 +1,15 @@
 # KV Cache & Attention Variants — Module 03
 
-Zero-to-advanced course docs. Generated directly from the standalone
-teaching notebooks in `teaching_notebooks/` (see `jupyter-implementation.md`
-for the full notebook-by-notebook plan) — same explanations, Mermaid
-diagrams, worked examples, run through `nbconvert` into these pages.
+Zero-to-advanced course docs, from naive decoding to PagedAttention/vLLM. The session
+pages are rendered from the teaching notebooks of the upstream course,
+[sourangshupal/kv-cache-attention-variants](https://github.com/sourangshupal/kv-cache-attention-variants).
+This edition adds Excalidraw diagrams of every flow and comparison, embedded right next to the
+text they explain, plus deep-dive study notes.
+
+!!! tip "Reading the diagrams"
+    Each Excalidraw drawing shows as an image. Open **Explore here** under it to pan and zoom
+    in place, or **Full screen** for a separate tab. The numbered **D01–D12** diagrams are
+    interactive too. Every diagram is also listed in the [Gallery](gallery.md).
 
 ## Course map
 
@@ -36,12 +42,18 @@ flowchart LR
     S09 --> S10[10 PagedAttention/vLLM]
 ```
 
+[D01 · Curriculum dependency: which session builds on which](assets/diagrams/D01_curriculum_dependency.html){ .diagram }
+
 ## How to use these docs
 
-1. Read sessions 00 → 10 in order (each recaps the previous one).
-2. Run the matching notebook in `teaching_notebooks/` yourself — these docs
-   are the read-only rendering; the notebooks are interactive.
-3. Once all 11 are covered, move to `assignments/`.
+1. Read the [course sessions](sessions/00_foundations.md) 00 → 10 in order; each one recaps the one before.
+2. Run the matching notebook in `teaching_notebooks/` yourself (sessions 00–04 are published).
+   These pages are the read-only version; the notebooks are interactive.
+3. Then go **Beyond the course**: [variants compared](beyond/variants_compared.md),
+   the [KV cache SOTA map](beyond/sota_map.md), [inference problems](beyond/inference_problems.md)
+   and [serving](beyond/serving.md).
+4. Test yourself with the [deep-dive explanation](study/explanation.md) and the
+   [interview questions](study/interview_questions.md).
 
 ## Build locally
 
@@ -49,4 +61,10 @@ flowchart LR
 uv sync --extra docs
 uv run mkdocs serve   # http://127.0.0.1:8000
 uv run mkdocs build   # static site -> site/
+```
+
+After editing a drawing in `docs/assets/excalidraw/`, regenerate its SVG:
+
+```bash
+cd tools/excalidraw_export && npm install && node export.mjs   # or: node export.mjs gqa
 ```

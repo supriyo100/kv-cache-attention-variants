@@ -75,6 +75,10 @@ print(f"memory saved by paging: {(1 - paged_total / naive_total) * 100:.1f}% les
     memory saved by paging: 41.9% less allocated than naive
 
 
+[D12 · PagedAttention block-table allocation](../assets/diagrams/D12_pagedattention_blocks.html){ .diagram }
+
+![PagedAttention: virtual memory for the KV cache](../assets/excalidraw/paged_attention.svg){ .excalidraw }
+
 ## Try it yourself: sweep `block_size`
 
 
@@ -122,12 +126,18 @@ defaults balance this.
 
 
 
+![KV memory management: fragmentation, block tables, block pool](../assets/excalidraw/kv_memory_management.svg){ .excalidraw }
+
 ## Beyond this notebook
 
 This is a CPU-only allocation-strategy simulation, not vLLM's actual CUDA
 paged-attention kernel. The real vLLM install + throughput benchmark (vs.
-naive HuggingFace `generate()`) is in
-`colab/session10_vllm_pagedattention_colab.ipynb` (GPU required).
+naive HuggingFace `generate()`) is a GPU-only Colab notebook in the upstream course; it is not
+published in this repo.
+
+For what a production engine adds on top of paging (continuous batching, chunked prefill,
+preemption, offload, prefix caching), see [Serving stack & scheduler](../beyond/serving.md) and
+the [KV cache SOTA map](../beyond/sota_map.md).
 
 
 ```mermaid

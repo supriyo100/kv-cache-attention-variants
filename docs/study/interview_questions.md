@@ -2,7 +2,9 @@
 
 An interview-prep bank for **LLM inference engineers**. Every question starts from a realistic production scenario (OOMs, TPOT regressions, shared system prompts, long-context products) and has a concise model answer with the key formula or number, plus a follow-up an interviewer is likely to ask. Questions tagged `Worked` are **worked calculations** with the full arithmetic shown.
 
-Companion material: [`interview_questions.excalidraw`](interview_questions.excalidraw) (visual map of this bank), [`chatgpt.md`](chatgpt.md), [`04_mqa.md`](04_mqa.md), [`05_gqa.md`](05_gqa.md), [`06_mla.md`](06_mla.md), [`07_rope.md`](07_rope.md), [`10_pagedattention_vllm.md`](10_pagedattention_vllm.md), [`kv_memory_management.excalidraw`](kv_memory_management.excalidraw), [`serving_scheduler.excalidraw`](serving_scheduler.excalidraw), [`serving_stack.excalidraw`](serving_stack.excalidraw).
+Companion material: the sessions on [MQA](../sessions/04_mqa.md), [GQA](../sessions/05_gqa.md), [MLA](../sessions/06_mla.md), [RoPE](../sessions/07_rope.md) and [PagedAttention](../sessions/10_pagedattention_vllm.md), plus [Serving stack & scheduler](../beyond/serving.md). The map below shows how the questions connect.
+
+![Interview question map: LLM inference engineer](../assets/excalidraw/interview_questions.svg){ .excalidraw }
 
 ## How to use this bank
 
@@ -16,7 +18,7 @@ Companion material: [`interview_questions.excalidraw`](interview_questions.excal
 | Item | Value |
 |---|---|
 | KV formula | `M_KV = 2 * L * B * T * H_kv * d_h * S` |
-| Toy model (chatgpt.md) | L=32, H_q=32, d_h=64, FP16, T=100K, B=1: MHA 256 KiB/token = 26.2 GB; GQA-8 64 KiB/token = 6.55 GB; GQA-16 13.1 GB; GQA-4 3.28 GB; MQA 8 KiB/token = 0.82 GB |
+| Toy model | L=32, H_q=32, d_h=64, FP16, T=100K, B=1: MHA 256 KiB/token = 26.2 GB; GQA-8 64 KiB/token = 6.55 GB; GQA-16 13.1 GB; GQA-4 3.28 GB; MQA 8 KiB/token = 0.82 GB |
 | Llama-3-8B | L=32, d_model=4096, H_q=32, H_kv=8, d_h=128, BF16: **128 KiB/token** (MHA-equivalent 512 KiB, MQA 16 KiB); 8K context = 1 GiB per sequence |
 | Llama-3-70B | L=80, H_kv=8, d_h=128, BF16: **320 KiB/token**; 8K = 2.5 GiB; 128K = 40 GiB |
 | DeepSeek-V2 MLA | d_c=512, d_R=64 -> 576 elements/token/layer vs 32,768 for MHA (1.76%, about 57x); L=60 |
@@ -1034,4 +1036,4 @@ Spec. decoding  E[tokens/pass] = (1 - a^(k+1)) / (1 - a)
 - GQA: arXiv 2305.13245; DeepSeek-V2 (MLA): arXiv 2405.04434; CLA: arXiv 2405.12981; YOCO: arXiv 2405.05254; Jamba: arXiv 2403.19887; MHA to MLA: arXiv 2502.14837
 - FlashAttention: arXiv 2205.14135; FlashAttention-2: arXiv 2307.08691
 - RoFormer (RoPE): arXiv 2104.09864; YaRN: arXiv 2309.00071; vLLM / PagedAttention: arXiv 2309.06180
-- Course notes in this repository: `chatgpt.md`, `02_kv_cache_memory_math.md`, `04_mqa.md`, `05_gqa.md`, `06_mla.md`, `07_rope.md`, `10_pagedattention_vllm.md`
+- Course pages on this site: [02 Memory math](../sessions/02_kv_cache_memory_math.md), [04 MQA](../sessions/04_mqa.md), [05 GQA](../sessions/05_gqa.md), [06 MLA](../sessions/06_mla.md), [07 RoPE](../sessions/07_rope.md), [10 PagedAttention](../sessions/10_pagedattention_vllm.md)

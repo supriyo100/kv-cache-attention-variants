@@ -88,6 +88,8 @@ console.print(table)
 
 
 
+[D03 · One MHA decode step with the KV cache](../assets/diagrams/D03_mha_attention_cache.html){ .diagram }
+
 ## Per-layer cache growth in a small multi-layer model
 
 
@@ -157,5 +159,5 @@ MHA caches `num_heads` full K/V heads per layer — the most expensive point
 on the memory-vs-quality spectrum. Every following notebook is a variation on
 "cache less by sharing or compressing K/V heads."
 
-You are now ready to move to `04_mqa.ipynb`.
+**Next:** [Session 04 — MQA](04_mqa.md)
 

@@ -66,9 +66,13 @@ plt.show()
 
 
     
-![png](05_gqa_files/05_gqa_2_1.png)
+![png](../assets/images/05_gqa_spectrum.png)
     
 
+
+![GQA: g query heads share each K/V head (H_kv = H_Q / g)](../assets/excalidraw/gqa.svg){ .excalidraw }
+
+[D06 · GQA group-sharing spectrum, MHA → MQA](../assets/diagrams/D06_gqa_spectrum.html){ .diagram }
 
 ## Numeric equivalence check
 
@@ -118,11 +122,35 @@ groups `[1, 2, 4, 8, 16]`) and rerun — the reduction factor between adjacent
 group counts is always exactly 2x when group counts double.
 
 
+## Worked example: $H_{kv} = H_Q / 4$
+
+Llama-3-8B uses exactly this setting: $H_Q = 32$ query heads share $H_{kv} = 8$ K/V heads, so
+every group of $g = H_Q / H_{kv} = 4$ query heads reads the same cached K and V.
+With $L = 32$ layers, $d_h = 128$ and 2-byte values:
+
+| | $H_{kv}$ | per token, all layers | 4k-token sequence |
+|---|---|---|---|
+| MHA | 32 | $2 \cdot 32 \cdot 32 \cdot 128 \cdot 2$ B = 512 KiB | 2 GiB |
+| **GQA, $H_{kv} = H_Q/4$** | **8** | $2 \cdot 32 \cdot 8 \cdot 128 \cdot 2$ B = **128 KiB** | **512 MiB** |
+| MQA | 1 | 16 KiB | 64 MiB |
+
+The rule is simply cache $\propto H_{kv}$: choosing $H_{kv} = H_Q / g$ divides the cache by $g$.
+K and V are expanded to all 32 heads only at compute time (`repeat_kv` /
+`repeat_interleave`), never stored. Decode also reads 4× fewer KV bytes per step, which is
+why GQA speeds up memory-bound decoding as well as saving memory.
+
+GQA only shrinks $H_{kv}$, so the other terms of the memory formula are still free to attack:
+cross-layer sharing ($L$), FP8 or INT4 KV ($S$), eviction ($T$). A trained GQA model can even
+be converted into MLA (see [TransMLA in session 06](06_mla.md#retrofitting-an-existing-model-mha2mla-and-transmla)).
+Section 10 of the drawing above shows how these stack, and the
+[KV cache SOTA map](../beyond/sota_map.md) covers every option.
+
+
 ## Recap
 
 GQA is the practical default in most modern open-weight models (e.g.
 Llama-2-70B, Mistral) because it lets teams pick a cache-size/quality point
 without committing to either MHA or MQA's extreme.
 
-You are now ready to move to `06_mla.ipynb`.
+**Next:** [Session 06 — MLA](06_mla.md)
 

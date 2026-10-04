@@ -3,7 +3,9 @@
 > Companion to the course repo [sourangshupal/kv-cache-attention-variants](https://github.com/sourangshupal/kv-cache-attention-variants).
 > Part A explains the theory from tokens to the KV cache. Part B walks the repository module by module.
 > Part C covers today's fine-tuning and inference stacks, including methods the repo doesn't cover.
-> The visual companion is `docs/explain.ecalidraw` (open it with the Excalidraw extension).
+> The visual companion is the drawing below (source: `docs/assets/excalidraw/explain.excalidraw`).
+
+![KV Cache & Attention Variants: visual companion to this page](../assets/excalidraw/explain.svg){ .excalidraw }
 
 **The one-line idea:** *the KV cache spends GPU memory to save compute.* Every attention variant in this
 repo (MQA, GQA, MLA) is a way to make that memory bill smaller. Every serving trick (FlashAttention,
@@ -215,14 +217,14 @@ weights + KV cache + activations/workspace + runtime overhead.
 ### B1. Design philosophy
 
 * It's a **10-session course**. Each optimisation exists because the previous approach fails in some way,
-  and the dependency chain is drawn in `docs/diagrams/D01_curriculum_dependency.html`.
+  and the dependency chain is drawn in [D01](../assets/diagrams/D01_curriculum_dependency.html).
 * **One source of truth:** the math lives in `src/kv_cache_variants/`. `lessons/` is purely
   presentation (rich-terminal tables) and imports the real modules without re-implementing them.
 * **Mac-first / CPU-first:** `sdpa_backends.default_device()` picks MPS or CPU. The CUDA-only topics
   (real FlashAttention kernels, vLLM) are taught with CPU stand-ins. The README mentions Colab notebooks in `colab/`, but
   **that folder isn't in the repo**.
 * Tooling: `uv` + `pyproject.toml` (torch ≥ 2.13, rich, jupyter), MkDocs-Material docs auto-deployed by
-  `.github/workflows/docs.yml`, and 12 self-contained HTML diagrams in `docs/diagrams/`.
+  `.github/workflows/docs.yml`, and 12 self-contained HTML diagrams in `docs/assets/diagrams/`.
 
 ### B2. Module map
 
@@ -243,7 +245,7 @@ src/kv_cache_variants/
 
 ### B3. Session by session
 
-**S0 — Foundations** (`docs/00_foundations.md`, notebook 00): tokens, embeddings, SDPA by hand on a
+**S0 — Foundations** ([session page](../sessions/00_foundations.md), notebook 00): tokens, embeddings, SDPA by hand on a
 3×4 example, causal masking, the autoregressive loop, and the decoder block (attention → residual →
 norm → MLP).
 
@@ -284,7 +286,7 @@ k = k.repeat_interleave(group_size, dim=1)   # expand at attention time only
 The key distinction is **storage vs compute.** The cache holds `G` heads, and the expansion happens only
 for the math. (Production kernels avoid even this materialisation, and PyTorch SDPA has `enable_gqa=True`.)
 Llama-2-70B, Llama-3, Mistral and Qwen all use GQA (usually 8 KV heads). The chart at
-`docs/05_gqa_files/05_gqa_2_1.png` plots this spectrum.
+[This plot](../assets/images/05_gqa_spectrum.png) shows the spectrum.
 
 **S6 — MLA, DeepSeek-V2** (`attention/mla.py`). This is a different axis: instead of fewer heads, it
 caches a **low-rank latent per token**.
@@ -321,7 +323,7 @@ Context extension, i.e. running past the trained length:
 | (Dynamic) NTK-aware | `dynamic_ntk_rope_cache` | Raise the base, which stretches low frequencies more than high ones. |
 | YaRN | `yarn_rope_cache` | Ramp per frequency: keep high-frequency (local) bands and interpolate low-frequency (global) bands. Real YaRN also scales attention temperature (`0.1·ln s + 1`), which this simplified version omits. |
 
-`docs/07_rope_files/07_rope_7_0.png` visualises the rotation and frequency bands.
+[This plot](../assets/images/07_rope_rotation.png) shows the rotation and frequency bands.
 
 **S8 — FlashAttention** (`lessons/session08_flashattention.py` + `sdpa_backends.py` + `bench.py`).
 FlashAttention's speedup comes from **IO**, not from fewer FLOPs. It tiles Q/K/V into SRAM blocks and uses
@@ -355,7 +357,7 @@ beam search over shared blocks. Diagram D12 shows the block table.
 | MQA | `2·d` | `1/h` | Some loss | PaLM, Falcon, StarCoder |
 | MLA | `d_c + d_rope` (e.g. 512 + 64) | ~1/57 of DeepSeek-V2's 128-head MHA | ≥ MHA (reported) | DeepSeek-V2/V3/R1, Kimi K2 |
 
-`docs/diagrams/D05_variant_cache_comparison.html` and `D06_gqa_spectrum.html` show this visually.
+[D05](../assets/diagrams/D05_variant_cache_comparison.html) and [D06](../assets/diagrams/D06_gqa_spectrum.html) show this visually.
 
 ### B5. Issues and caveats found while reading the code
 
@@ -502,4 +504,4 @@ request → tokenizer → scheduler (waiting queue)
 *Diagrams already in the repo: D01 curriculum · D02 naive vs cached · D03 MHA cache · D04 memory formula ·
 D05 variant comparison · D06 GQA spectrum · D07 MLA compression · D08 RoPE rotation · D09 context
 extension · D10 FlashAttention tiling · D11 SDPA dispatch · D12 PagedAttention blocks
-(`docs/diagrams/`).*
+(`docs/assets/diagrams/`).*

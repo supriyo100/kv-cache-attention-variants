@@ -112,6 +112,12 @@ console.print(
 is why serving many long-context requests concurrently is a memory problem, not just a compute problem.
 </pre>
 
+[D04 · The KV cache memory formula](../assets/diagrams/D04_kv_cache_memory_formula.html){ .diagram }
+
+![KV cache memory: worked example, variants, and what the heads do](../assets/excalidraw/memory.svg){ .excalidraw }
+
+![A100 40 GB VRAM budget: weights, KV cache, activations](../assets/excalidraw/vram_budget_a100.svg){ .excalidraw }
+
 ## Try it yourself
 
 Reproduce a row of `reference_tables/model_config_memory_worksheet.md` by
@@ -150,4 +156,4 @@ variant in this course pulls is `num_kv_heads` — MHA uses all of them, MQA
 uses 1, GQA uses somewhere in between, MLA replaces heads with a compressed
 latent dimension entirely.
 
-You are now ready to move to `03_mha_recap.ipynb`.
+**Next:** [Session 03 — MHA Recap](03_mha_recap.md)

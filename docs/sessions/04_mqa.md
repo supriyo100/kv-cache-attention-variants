@@ -80,6 +80,8 @@ console.print(table)
 
 
 
+![MQA: 32 query heads, one K/V head](../assets/excalidraw/mqa.svg){ .excalidraw }
+
 ## The tradeoff
 
 Fewer distinct K/V subspaces means less representational capacity for
@@ -108,5 +110,5 @@ notice the MQA cache size never changes, only MHA's does.
 MQA is the maximum-compression extreme: 1 shared K/V head no matter how many
 query heads. GQA generalizes both MHA and MQA with a tunable group count.
 
-You are now ready to move to `05_gqa.ipynb`.
+**Next:** [Session 05 — GQA](05_gqa.md)
 

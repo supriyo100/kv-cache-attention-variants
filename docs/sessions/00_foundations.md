@@ -246,5 +246,5 @@ from scratch. Every remaining notebook asks one question about this loop:
 recomputing K and V for old tokens?** That's the KV cache — starting in
 Notebook 1.
 
-You are now ready to move to `01_naive_decoding.ipynb`.
+**Next:** [Session 01 — Naive Decoding](01_naive_decoding.md)
 

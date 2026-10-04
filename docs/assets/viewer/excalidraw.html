@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excalidraw viewer</title>
+<!--
+  Read-only viewer for the drawings in ../excalidraw/.
+  Usage: excalidraw.html?file=gqa            (loads ../excalidraw/gqa.excalidraw)
+         excalidraw.html?file=gqa&theme=dark
+  Embedded in pages by hooks/embeds.py; follows the MkDocs light/dark toggle when framed.
+-->
+<style>
+  html, body, #app { margin: 0; height: 100%; }
+  body { background: #ffffff; }
+  .msg { font: 14px/1.5 system-ui, sans-serif; padding: 16px; color: #495057; }
+  .msg.err { color: #c92a2a; }
+</style>
+<script>window.EXCALIDRAW_ASSET_PATH = "https://unpkg.com/@excalidraw/excalidraw@0.17.6/dist/";</script>
+<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@excalidraw/excalidraw@0.17.6/dist/excalidraw.production.min.js"></script>
+</head>
+<body>
+<div id="app"><p class="msg">Loading drawing…</p></div>
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var name = (params.get("file") || "").replace(/[^A-Za-z0-9_\-]/g, "");
+  var app = document.getElementById("app");
+  var h = React.createElement;
+
+  function fail(text) { app.innerHTML = '<p class="msg err"></p>'; app.firstChild.textContent = text; }
+
+  function detectTheme() {
+    var forced = params.get("theme");
+    if (forced === "dark" || forced === "light") return forced;
+    try {
+      var scheme = parent.document.body.getAttribute("data-md-color-scheme");
+      if (scheme) return scheme === "slate" ? "dark" : "light";
+    } catch (e) { /* not framed by the docs site */ }
+    return window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  if (!name) { fail("No drawing given. Use ?file=<name>."); return; }
+  if (!window.ExcalidrawLib) { fail("Could not load the Excalidraw library (offline?)."); return; }
+  document.title = name + " · Excalidraw viewer";
+
+  fetch("../excalidraw/" + name + ".excalidraw")
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(function (scene) {
+      function App() {
+        var state = React.useState(detectTheme());
+        var theme = state[0], setTheme = state[1];
+        React.useEffect(function () {
+          try {
+            var mo = new MutationObserver(function () { setTheme(detectTheme()); });
+            mo.observe(parent.document.body, { attributes: true, attributeFilter: ["data-md-color-scheme"] });
+            return function () { mo.disconnect(); };
+          } catch (e) { return undefined; }
+        }, []);
+        return h(ExcalidrawLib.Excalidraw, {
+          initialData: {
+            elements: scene.elements || [],
+            appState: { viewBackgroundColor: (scene.appState && scene.appState.viewBackgroundColor) || "#ffffff" },
+            files: scene.files || {},
+            scrollToContent: true
+          },
+          theme: theme,
+          viewModeEnabled: true,
+          zenModeEnabled: true,
+          UIOptions: {
+            canvasActions: {
+              loadScene: false, saveToActiveFile: false, export: false, clearCanvas: false,
+              changeViewBackgroundColor: false, saveAsImage: true, toggleTheme: true
+            }
+          }
+        });
+      }
+      ReactDOM.createRoot(app).render(h(App));
+    })
+    .catch(function (e) { fail("Could not load " + name + ".excalidraw (" + e.message + ")."); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+/* Embedded diagrams produced by hooks/embeds.py */
+.md-typeset .xd-embed,
+.md-typeset .dg-embed {
+  width: 100%;
+  margin: 1.5em 0;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--md-default-bg-color);
+}
+
+.xd-embed > a { display: block; }
+
+.xd-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #ffffff;
+}
+
+/* Drawings are authored on white; invert them for the dark palette. */
+[data-md-color-scheme="slate"] .xd-svg {
+  filter: invert(0.92) hue-rotate(180deg);
+}
+
+.xd-embed figcaption,
+.dg-embed figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5em;
+  margin: 0;
+  padding: 0.6em 0.9em;
+  max-width: none;
+  font-size: 0.75rem;
+  text-align: left;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.xd-actions { color: var(--md-default-fg-color--light); }
+
+.xd-live { border-top: 1px solid var(--md-default-fg-color--lightest); }
+
+.xd-live summary {
+  cursor: pointer;
+  padding: 0.5em 0.9em;
+  font-size: 0.75rem;
+  color: var(--md-accent-fg-color);
+}
+
+.xd-live iframe,
+.dg-embed iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+.xd-live iframe { height: 75vh; }
+.dg-embed iframe { height: 640px; }
+
+/* Gallery page */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.gallery a {
+  display: block;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+  overflow: hidden;
+  color: inherit;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: top left;
+  background: #ffffff;
+}
+
+[data-md-color-scheme="slate"] .gallery img { filter: invert(0.92) hue-rotate(180deg); }
+
+.gallery span {
+  display: block;
+  padding: 0.5em 0.7em;
+  font-size: 0.75rem;
+}

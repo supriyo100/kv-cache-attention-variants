@@ -1,6 +1,12 @@
 site_name: KV Cache & Attention Variants — Module 03
 site_description: Zero-to-advanced course docs — Naive Decoding through PagedAttention/vLLM
 docs_dir: docs
+# Pages build as sessions/05_gqa.html (not sessions/05_gqa/), so relative paths in embedded
+# HTML resolve exactly like in the source tree. See hooks/embeds.py.
+use_directory_urls: false
+
+hooks:
+  - hooks/embeds.py
 
 theme:
   name: material
@@ -25,6 +31,9 @@ theme:
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
   - tables
   - toc:
       permalink: true
@@ -38,21 +47,33 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 
+extra_css:
+  - assets/stylesheets/extra.css
+
 extra_javascript:
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - assets/javascripts/embeds.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 nav:
   - Home: index.md
-  - "Session 00 — Foundations": 00_foundations.md
-  - "Session 01 — Naive Decoding": 01_naive_decoding.md
-  - "Session 02 — KV Cache Memory Math": 02_kv_cache_memory_math.md
-  - "Session 03 — MHA Recap": 03_mha_recap.md
-  - "Session 04 — MQA": 04_mqa.md
-  - "Session 05 — GQA": 05_gqa.md
-  - "Session 06 — MLA": 06_mla.md
-  - "Session 07 — RoPE": 07_rope.md
-  - "Session 08 — FlashAttention": 08_flashattention.md
-  - "Session 09 — PyTorch SDPA": 09_pytorch_sdpa.md
-  - "Session 10 — PagedAttention / vLLM": 10_pagedattention_vllm.md
-  - "Interactive Diagrams": diagrams.md
+  - Course:
+      - "00 — Foundations": sessions/00_foundations.md
+      - "01 — Naive Decoding": sessions/01_naive_decoding.md
+      - "02 — KV Cache Memory Math": sessions/02_kv_cache_memory_math.md
+      - "03 — MHA Recap": sessions/03_mha_recap.md
+      - "04 — MQA": sessions/04_mqa.md
+      - "05 — GQA": sessions/05_gqa.md
+      - "06 — MLA": sessions/06_mla.md
+      - "07 — RoPE": sessions/07_rope.md
+      - "08 — FlashAttention": sessions/08_flashattention.md
+      - "09 — PyTorch SDPA": sessions/09_pytorch_sdpa.md
+      - "10 — PagedAttention / vLLM": sessions/10_pagedattention_vllm.md
+  - Beyond the course:
+      - "Attention variants compared": beyond/variants_compared.md
+      - "KV cache SOTA map": beyond/sota_map.md
+      - "Inference problems": beyond/inference_problems.md
+      - "Serving stack & scheduler": beyond/serving.md
+  - Study notes:
+      - "Deep-dive explanation": study/explanation.md
+      - "Interview questions": study/interview_questions.md
+  - Gallery: gallery.md

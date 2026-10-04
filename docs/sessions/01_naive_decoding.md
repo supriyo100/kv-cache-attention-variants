@@ -102,6 +102,8 @@ console.print(table)
 
 
 
+[D02 · Naive vs cached decode, step by step](../assets/diagrams/D02_naive_vs_cached_decode.html){ .diagram }
+
 ## Timing blowup across sequence length
 
 Total attention work across a full generation of `n` tokens (with no cache)
@@ -160,5 +162,5 @@ Naive decoding wastes $O(n^2)$ total work by recomputing unchanged K/V every
 step. The fix is obvious once stated: cache K and V for tokens already
 processed, and only compute K/V for the *new* token each step.
 
-You are now ready to move to `02_kv_cache_memory_math.ipynb`.
+**Next:** [Session 02 — KV Cache Memory Math](02_kv_cache_memory_math.md)
 
