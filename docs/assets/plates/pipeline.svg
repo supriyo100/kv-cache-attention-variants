@@ -1,0 +1,79 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 330" role="img" aria-label="One request: prefill writes the prompt&#x27;s K/V once, decode reads all of it every step">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="pipeline-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="pipeline-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="pipeline-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="pipeline-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="pipeline-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<rect x="20" y="30" width="210" height="74" rx="10" class="grp"/>
+<text x="30" y="45" class="xs b">prompt tokens</text>
+<rect x="32" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="56" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="80" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="104" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="128" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="152" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="176" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="200" y="58" width="20" height="30" rx="3" class="n-p"/>
+<rect x="270" y="34" width="210" height="66" rx="7" class="n-c"/>
+<circle cx="278" cy="42" r="2.6" class="f-c"/>
+<text x="375" y="65" text-anchor="middle" class="b">PREFILL</text>
+<text x="375" y="80" text-anchor="middle" class="xs">all prompt tokens at once</text>
+<text x="375" y="118" text-anchor="middle" class="xs">compute-bound · sets TTFT</text>
+<rect x="560" y="34" width="210" height="66" rx="7" class="n-s"/>
+<circle cx="568" cy="42" r="2.6" class="f-s"/>
+<text x="665" y="65" text-anchor="middle" class="b">DECODE</text>
+<text x="665" y="80" text-anchor="middle" class="xs">one new token per step</text>
+<text x="665" y="118" text-anchor="middle" class="xs">memory-bound · sets TPOT</text>
+<path d="M230,67 L268,67" class="w-i" marker-end="url(#pipeline-ai)"/>
+<path d="M480,67 L558,67" class="w-i" marker-end="url(#pipeline-ai)"/>
+<rect x="810" y="50" width="38" height="34" rx="7" class="n-c"/>
+<text x="829" y="71.5" text-anchor="middle" class="xs b">y1</text>
+<rect x="854" y="50" width="38" height="34" rx="7" class="n-c"/>
+<text x="873" y="71.5" text-anchor="middle" class="xs b">y2</text>
+<rect x="898" y="50" width="38" height="34" rx="7" class="n-c"/>
+<text x="917" y="71.5" text-anchor="middle" class="xs b">y3</text>
+<rect x="942" y="50" width="38" height="34" rx="7" class="n-c"/>
+<text x="961" y="71.5" text-anchor="middle" class="xs b">…</text>
+<path d="M770,67 L808,67" class="w-c" marker-end="url(#pipeline-ac)"/>
+<text x="810" y="40" class="xs b">output tokens</text>
+<rect x="20" y="180" width="960" height="72" rx="10" class="grp-m"/>
+<text x="30" y="195" class="xs b">KV cache of this request: one K and one V per token, per layer, per KV head</text>
+<rect x="36" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="67" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="98" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="129" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="160" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="191" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="222" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="253" y="206" width="27" height="30" rx="3" class="n-m"/>
+<rect x="284" y="206" width="27" height="30" rx="3" class="n-mm"/>
+<rect x="315" y="206" width="27" height="30" rx="3" class="n-mm"/>
+<rect x="346" y="206" width="27" height="30" rx="3" class="n-mm"/>
+<rect x="377" y="206" width="27" height="30" rx="3" class="n-mm"/>
+<rect x="408" y="206" width="27" height="30" rx="3" class="n-mm"/>
+<rect x="439" y="206" width="27" height="30" rx="3" class="n-mm"/>
+<rect x="470" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="501" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="532" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="563" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="594" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="625" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="656" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="687" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="718" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="749" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="780" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="811" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="842" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="873" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="904" y="206" width="27" height="30" rx="3" class="n"/>
+<rect x="935" y="206" width="27" height="30" rx="3" class="n"/>
+<text x="36" y="268" class="xs f-m">written once by prefill</text>
+<text x="284" y="268" class="xs f-m">appended by decode</text>
+<text x="470" y="268" class="xs">future tokens: final length unknown at arrival</text>
+<path d="M330,100 L330,204" class="w-m" marker-end="url(#pipeline-am)"/>
+<text x="338" y="150" class="xs b f-m">writes K, V once</text>
+<path d="M620,204 L620,102" class="w-m" marker-end="url(#pipeline-am)"/>
+<text x="612" y="150" text-anchor="end" class="xs b f-m">reads ALL K, V every step</text>
+<path d="M720,102 L720,160 L483,160 L483,204" class="w-s dash" marker-end="url(#pipeline-as)"/>
+<text x="728" y="156" class="xs b f-s">append k_t, v_t</text>
+<text x="20" y="302" class="xs">Without a cache, step t recomputes K and V for all t tokens: O(T²) work per sequence.</text>
+<text x="20" y="318" class="xs b">With a cache, each step is O(T) reads. The price is memory, and every step re-reads all of it.</text>
+</svg>

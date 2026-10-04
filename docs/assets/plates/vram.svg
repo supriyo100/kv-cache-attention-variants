@@ -1,0 +1,154 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 350" role="img" aria-label="Where an A100&#x27;s 40 GB goes, and how context length divides the batch">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="vram-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="vram-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="vram-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="vram-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="vram-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<text x="20" y="18" class="xs b">A100-40GB · 7B FP16 · GQA-8 (toy d_h = 64) · 100K-token context · B = 1</text>
+<rect x="20" y="30" width="336" height="44" rx="3" class="n"/>
+<text x="28" y="50" class="xs b">weights 7B × 2 B</text>
+<text x="28" y="66" class="xs">14.00 GB</text>
+<rect x="356" y="30" width="157.286" height="44" rx="3" class="n-m"/>
+<text x="364" y="50" class="xs b">KV 100K</text>
+<text x="364" y="66" class="xs">6.55 GB</text>
+<rect x="513.286" y="30" width="36" height="44" rx="3" class="n-p"/>
+<rect x="549.286" y="30" width="24" height="44" rx="3" class="n-p"/>
+<rect x="573.286" y="30" width="36" height="44" rx="3" class="n-p"/>
+<rect x="609.286" y="30" width="370.714" height="44" rx="3" class="n" stroke-dasharray="5 4"/>
+<text x="617.286" y="50" class="xs b">free 15.45 GB</text>
+<text x="617.286" y="66" class="xs">15.45 GB</text>
+<text x="513.286" y="92" class="xs">grey: activations 1.5 · CUDA workspace 1.0 · runtime/allocator 1.5 GB</text>
+<text x="20" y="132" class="xs f-x">Common mistake: 40 − 14 GB of weights = 26 GB of KV. Reserve ~4–6 GB for everything that is neither.</text>
+<text x="20" y="166" class="sm b">B_max = floor( (VRAM − weights − overhead) ÷ KV per sequence )   with a 22 GB KV pool (40 − 14 − 4):</text>
+<text x="20" y="202" class="sm b">100,000 tokens</text>
+<text x="20" y="218" class="xs">6.55 GB per sequence</text>
+<rect x="200" y="192" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="208.6" y="192" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="217.2" y="192" width="6.6" height="22" rx="1.5" class="n-m"/>
+<text x="235.8" y="208" class="sm b">3 sequences</text>
+<text x="20" y="252" class="sm b">8,192 tokens</text>
+<text x="20" y="268" class="xs">0.537 GB per sequence</text>
+<rect x="200" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="208.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="217.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="225.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="234.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="243" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="251.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="260.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="268.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="277.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="286" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="294.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="303.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="311.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="320.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="329" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="337.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="346.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="354.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="363.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="372" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="380.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="389.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="397.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="406.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="415" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="423.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="432.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="440.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="449.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="458" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="466.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="475.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="483.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="492.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="501" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="509.6" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="518.2" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="526.8" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="535.4" y="242" width="6.6" height="22" rx="1.5" class="n-m"/>
+<text x="554" y="258" class="sm b">40 sequences</text>
+<text x="20" y="302" class="sm b">4,096 tokens</text>
+<text x="20" y="318" class="xs">0.268 GB per sequence</text>
+<rect x="200" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="208.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="217.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="225.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="234.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="243" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="251.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="260.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="268.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="277.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="286" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="294.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="303.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="311.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="320.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="329" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="337.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="346.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="354.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="363.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="372" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="380.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="389.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="397.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="406.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="415" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="423.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="432.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="440.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="449.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="458" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="466.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="475.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="483.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="492.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="501" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="509.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="518.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="526.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="535.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="544" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="552.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="561.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="569.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="578.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="587" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="595.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="604.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="612.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="621.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="630" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="638.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="647.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="655.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="664.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="673" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="681.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="690.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="698.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="707.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="716" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="724.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="733.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="741.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="750.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="759" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="767.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="776.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="784.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="793.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="802" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="810.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="819.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="827.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="836.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="845" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="853.6" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="862.2" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="870.8" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="879.4" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<rect x="888" y="292" width="6.6" height="22" rx="1.5" class="n-m"/>
+<text x="906.6" y="308" class="sm b">81 sequences</text>
+<text x="20" y="340" class="xs">MHA at 100K needs 26.2 GB per sequence: zero fit. Concurrency is capped by KV, not by weights.</text>
+</svg>

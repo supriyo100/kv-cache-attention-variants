@@ -19,7 +19,7 @@ throughout: <span class="k-memory">H = 32 heads, d<sub>h</sub> = 128, L = 32 lay
 Sessions [04 MQA](../sessions/04_mqa.md), [05 GQA](../sessions/05_gqa.md) and
 [06 MLA](../sessions/06_mla.md) introduce the variants one at a time. The plates are distilled from
 the two hand-drawn sheets at the [bottom of this page](#the-hand-drawn-sheets), and each chapter
-links to the matching section of a sheet.
+links to the matching section of a sheet. The [visual story](../story.md) uses the same plates for the whole request, from prompt to the state of the art.
 
 <ol class="vs-map">
 <li><a href="#1-seven-terms-seven-knobs">Seven terms, seven knobs<small>the formula</small></a></li>

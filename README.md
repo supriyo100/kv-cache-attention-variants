@@ -19,6 +19,7 @@ derivation, a diagram, tested PyTorch code, the trade-offs and the current state
 
 | Part | What | Where |
 |---|---|---|
+| The visual story | 17 generated plates in six acts, one request from prompt to the state of the art, each linked to its hand-drawn sheet | [`docs/story.md`](docs/story.md) |
 | The path | 12 steps, one request end to end, every topic as problem → math → design → code → trade-offs → SOTA | [`docs/path/`](docs/path/) |
 | State of the art | the 2026 landscape by layer, and each technique's most-starred open-source implementation | [`docs/sota/`](docs/sota/) |
 | Comparisons | 11 head-to-head matrices (MHA vs GQA vs MLA, paged vs contiguous, FP16 vs FP8 vs INT4, ...) | [`docs/compare/`](docs/compare/) |
@@ -26,6 +27,7 @@ derivation, a diagram, tested PyTorch code, the trade-offs and the current state
 | `inference_lab` | 11 small PyTorch/Python modules: KV math, paged allocator with refcounts and copy-on-write, prefix caches (hash-chained and radix), scheduler, tiled attention and LSE merge, MLA absorption on the course's MLA module, KIVI and TurboQuant, KV eviction, speculative decoding, disaggregation | [`src/inference_lab/`](src/inference_lab/), 37 tests in [`tests/`](tests/) |
 | Notebooks | 14 original notebooks (6 core, 8 SOTA), published without outputs | [`notebooks/`](notebooks/) |
 | References | 44 arXiv citations verified against the arXiv API | [`tools/references.py`](tools/references.py) → [`docs/references.md`](docs/references.md) |
+| Explanation → implementation | for every idea: where it is explained here, the reference module, and the usable component in PyTorch, transformers, vLLM, SGLang, FlashAttention, FlashInfer, kvpress | [`docs/implementation.md`](docs/implementation.md) |
 | Plan | audit, gap analysis, architecture, milestones, risks | [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) |
 
 ### Original vs upstream
@@ -60,6 +62,11 @@ Upstream course walkthroughs still work:
 
 After editing an Excalidraw drawing in `docs/assets/excalidraw/`, regenerate its SVG:
 `cd tools/excalidraw_export && npm install && node export.mjs` (needs Node and Chrome or Edge).
+
+The story plates (`docs/assets/plates/*.svg`, used by [The visual story](docs/story.md) and
+[Attention variants compared](docs/beyond/variants_compared.md)) are generated, with every number
+computed: `uv run python tools/story_plates.py`. `hooks/embeds.py` inlines them and turns each
+Excalidraw sheet into a pan/zoom poster with section jumps (`page.html#sheet-<name>@<n>` deep-links a section).
 
 ## How results are labelled
 

@@ -73,7 +73,7 @@ body:has(.vs-plate) .md-main__inner.md-grid { max-width: 76rem; }
 }
 .vs-plate__bar {
   display: flex; align-items: baseline; gap: 0.8em; padding: 0.6em 1em;
-  border-bottom: 1px solid var(--ie-rule); font-family: var(--ie-font-mono);
+  border-bottom: 1px solid var(--ie-rule); font-family: var(--ie-font-mono); text-align: left;
 }
 .vs-plate__no {
   flex: none; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;

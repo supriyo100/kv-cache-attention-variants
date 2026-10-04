@@ -1,0 +1,48 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 340" role="img" aria-label="RoPE: rotate each pair by m·θ_i; dot products then depend only on the offset">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="rope-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="rope-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="rope-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="rope-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="rope-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<circle cx="150" cy="150" r="92" class="rule"/>
+<path d="M46,150 L254,150 M150,46 L150,254" class="rule"/>
+<path d="M150,150 L237.497,121.57" class="w-i" marker-end="url(#rope-ai)"/>
+<path d="M150,150 L169.128,60.0104" class="w-x" marker-end="url(#rope-ax)"/>
+<path d="M193.749,135.785 A46,46 0 0 0 159.564,105.005" class="w-x dash"/>
+<text x="202" y="100" class="xs b f-x">m·θ_i</text>
+<text x="20" y="22" class="xs b">one pair (x_2i, x_2i+1) of q or k</text>
+<text x="20" y="268" class="xs">rotation keeps |x|; position lives in the angle</text>
+<text x="20" y="284" class="sm b">⟨R_m q, R_n k⟩ = ⟨q, R_(n−m) k⟩</text>
+<path d="M340,30 L340,250 L660,250" class="w-i"/>
+<text x="334" y="222.571" text-anchor="end" class="xs">1e1</text>
+<text x="334" y="159.714" text-anchor="end" class="xs">1e3</text>
+<text x="334" y="96.8571" text-anchor="end" class="xs">1e5</text>
+<text x="334" y="34" text-anchor="end" class="xs">1e7</text>
+<path d="M340,224.914 L345.079,222.95 L350.159,220.986 L355.238,219.021 L360.317,217.057 L365.397,215.093 L370.476,213.129 L375.556,211.164 L380.635,209.2 L385.714,207.236 L390.794,205.271 L395.873,203.307 L400.952,201.343 L406.032,199.379 L411.111,197.414 L416.19,195.45 L421.27,193.486 L426.349,191.521 L431.429,189.557 L436.508,187.593 L441.587,185.629 L446.667,183.664 L451.746,181.7 L456.825,179.736 L461.905,177.771 L466.984,175.807 L472.063,173.843 L477.143,171.879 L482.222,169.914 L487.302,167.95 L492.381,165.986 L497.46,164.021 L502.54,162.057 L507.619,160.093 L512.698,158.129 L517.778,156.164 L522.857,154.2 L527.937,152.236 L533.016,150.271 L538.095,148.307 L543.175,146.343 L548.254,144.379 L553.333,142.414 L558.413,140.45 L563.492,138.486 L568.571,136.521 L573.651,134.557 L578.73,132.593 L583.81,130.629 L588.889,128.664 L593.968,126.7 L599.048,124.736 L604.127,122.771 L609.206,120.807 L614.286,118.843 L619.365,116.879 L624.444,114.914 L629.524,112.95 L634.603,110.986 L639.683,109.021 L644.762,107.057 L649.841,105.093 L654.921,103.129 L660,101.164" class="w-c"/>
+<text x="656" y="95.1643" text-anchor="end" class="xs b">base 10,000: up to 54,410</text>
+<path d="M340,224.914 L345.079,222.116 L350.159,219.317 L355.238,216.519 L360.317,213.72 L365.397,210.921 L370.476,208.123 L375.556,205.324 L380.635,202.526 L385.714,199.727 L390.794,196.928 L395.873,194.13 L400.952,191.331 L406.032,188.533 L411.111,185.734 L416.19,182.935 L421.27,180.137 L426.349,177.338 L431.429,174.54 L436.508,171.741 L441.587,168.942 L446.667,166.144 L451.746,163.345 L456.825,160.547 L461.905,157.748 L466.984,154.949 L472.063,152.151 L477.143,149.352 L482.222,146.554 L487.302,143.755 L492.381,140.956 L497.46,138.158 L502.54,135.359 L507.619,132.561 L512.698,129.762 L517.778,126.963 L522.857,124.165 L527.937,121.366 L533.016,118.567 L538.095,115.769 L543.175,112.97 L548.254,110.172 L553.333,107.373 L558.413,104.574 L563.492,101.776 L568.571,98.9773 L573.651,96.1787 L578.73,93.3801 L583.81,90.5815 L588.889,87.7829 L593.968,84.9843 L599.048,82.1857 L604.127,79.3871 L609.206,76.5885 L614.286,73.7899 L619.365,70.9913 L624.444,68.1927 L629.524,65.3941 L634.603,62.5955 L639.683,59.7969 L644.762,56.9983 L649.841,54.1997 L654.921,51.4011 L660,48.6025" class="w-s"/>
+<text x="656" y="42.6025" text-anchor="end" class="xs b">base 500,000 (Llama-3): up to 2,559,196</text>
+<path d="M340,127.008 L660,127.008" class="w-x dash"/>
+<text x="346" y="121.008" class="xs f-x">8,192 = trained context</text>
+<text x="500" y="268" text-anchor="middle" class="xs">pair index i = 0 … 63 (d_h = 128)</text>
+<text x="340" y="22" class="xs b">wavelength λ_i = 2π · base^(2i/d_h), tokens (log)</text>
+<text x="340" y="290" class="xs">pairs above the red line never finished a turn</text>
+<text x="340" y="305" class="xs">in training: PI, NTK and YaRN rescale their θ_i.</text>
+<text x="700" y="22" class="xs b">how RoPE meets the KV cache</text>
+<rect x="700" y="34" width="130" height="28" rx="7" class="n-m"/>
+<text x="765" y="52.5" text-anchor="middle" class="xs b">R_0 k_0</text>
+<rect x="700" y="68" width="130" height="28" rx="7" class="n-m"/>
+<text x="765" y="86.5" text-anchor="middle" class="xs b">R_1 k_1</text>
+<rect x="700" y="102" width="130" height="28" rx="7" class="n-m"/>
+<text x="765" y="120.5" text-anchor="middle" class="xs b">R_2 k_2</text>
+<rect x="700" y="136" width="130" height="28" rx="7" class="n-m"/>
+<text x="765" y="154.5" text-anchor="middle" class="xs b">…</text>
+<rect x="700" y="170" width="130" height="28" rx="7" class="n-m"/>
+<text x="765" y="188.5" text-anchor="middle" class="xs b">R_t-1 k</text>
+<rect x="850" y="170" width="130" height="28" rx="7" class="n-c"/>
+<text x="915" y="188.5" text-anchor="middle" class="xs b">R_t q_t (new)</text>
+<path d="M848,184 L832,184" class="w-c" marker-end="url(#rope-ac)"/>
+<text x="700" y="222" class="xs">keys are cached ALREADY rotated at</text>
+<text x="700" y="237" class="xs">their absolute position n; only the</text>
+<text x="700" y="252" class="xs">new query rotates. V is never rotated.</text>
+<text x="700" y="267" class="xs">Anything that renumbers positions</text>
+<text x="700" y="282" class="xs">(windows, θ changes, MLA absorption)</text>
+<text x="700" y="297" class="xs">needs pre-RoPE K or a re-rotation.</text>
+</svg>

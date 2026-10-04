@@ -121,6 +121,7 @@ nav:
       - "10. FlashAttention": path/10-flashattention.md
       - "11. Long context": path/11-long-context.md
       - "12. Scaling out": path/12-scaling-out.md
+  - Visual story: story.md
   - State of the art:
       - sota/index.md
       - "Techniques and implementations": sota/techniques.md
@@ -129,6 +130,7 @@ nav:
       - lab/index.md
       - "Interactive tools": lab/tools.md
       - "Notebooks": lab/notebooks.md
+      - "Explanation → implementation": implementation.md
   - Course (upstream):
       - "About the course": sessions/index.md
       - "00 Foundations": sessions/00_foundations.md

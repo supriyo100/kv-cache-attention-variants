@@ -1,4 +1,4 @@
-"""Render the "Attention variants compared" story plates to docs/assets/plates/*.svg.
+"""Render the story plates to docs/assets/plates/*.svg.
 
     uv run python tools/story_plates.py
 
@@ -6,12 +6,14 @@ Each plate is a plain SVG drawn with semantic classes. hooks/embeds.py inlines i
 (`![title](../assets/plates/x.svg){ .plate }`), where the classes pick up the site's color tokens and
 follow light/dark mode. The <style> inside each file carries fallback colors, so the files also
 render on their own (GitHub, a browser tab). Every number is computed here, not typed in.
-The content is distilled from docs/assets/excalidraw/comparison.excalidraw and
-architecture_evolution.excalidraw.
+The content is distilled from the hand-drawn sheets in docs/assets/excalidraw/: the first eleven
+plates (Attention variants compared) from comparison and architecture_evolution, the rest (The
+visual story) from the other sheets.
 """
 
 from __future__ import annotations
 
+import itertools
 import math
 from html import escape
 from pathlib import Path
@@ -116,10 +118,10 @@ class Plate:
         if label:
             self.text(x + 10, y + 15, label, lcls)
 
-    def diamond(self, cx, cy, hw, hh, label):
+    def diamond(self, cx, cy, hw, hh, label, cls="sm"):
         pts = f"{cx - hw:g},{cy:g} {cx:g},{cy - hh:g} {cx + hw:g},{cy:g} {cx:g},{cy + hh:g}"
         self.add(f'<polygon points="{pts}" class="n"/>')
-        self.text(cx, cy + 4.5, label, "sm", "middle")
+        self.text(cx, cy + 4.5, label, cls, "middle")
 
     def svg(self) -> str:
         defs = "".join(
@@ -607,7 +609,474 @@ def plate_stack() -> Plate:
     return p
 
 
-# @@STORY@@
+# ---- story plates: the whole site, one request from arrival to the state of the art ----------
+# Distilled from explain, memory, vram_budget_a100, roofline, inference_problems, rope,
+# paged_attention, kv_memory_management, serving_scheduler, serving_stack and sota.
+
+A100_TFLOPS, A100_BW = 312.0, 1.555  # BF16 dense TFLOPS, TB/s
+H100_TFLOPS, H100_BW = 989.0, 3.35
+
+
+def plate_pipeline() -> Plate:
+    p = Plate("pipeline", 330, "One request: prefill writes the prompt's K/V once, decode reads all of it every step")
+    p.group(20, 30, 210, 74, "prompt tokens", lcls="xs b")
+    for i in range(8):
+        p.rect(32 + i * 24, 58, 20, 30, "n-p", rx=3)
+    p.node(270, 34, 210, 66, "n-c", "PREFILL", "all prompt tokens at once")
+    p.text(375, 118, "compute-bound · sets TTFT", "xs", "middle")
+    p.node(560, 34, 210, 66, "n-s", "DECODE", "one new token per step")
+    p.text(665, 118, "memory-bound · sets TPOT", "xs", "middle")
+    p.wire([(230, 67), (268, 67)], "i")
+    p.wire([(480, 67), (558, 67)], "i")
+    for i, t in enumerate(["y1", "y2", "y3", "…"]):
+        p.node(810 + i * 44, 50, 38, 34, "n-c", t, dot=False, tcls="xs b")
+    p.wire([(770, 67), (808, 67)], "c")
+    p.text(810, 40, "output tokens", "xs b")
+    # the cache
+    p.group(20, 180, 960, 72, "KV cache of this request: one K and one V per token, per layer, per KV head", "grp-m", "xs b")
+    for i in range(30):
+        cls = "n-m" if i < 8 else ("n-mm" if i < 14 else "n")
+        p.rect(36 + i * 31, 206, 27, 30, cls, rx=3)
+    p.text(36, 268, "written once by prefill", "xs f-m")
+    p.text(36 + 8 * 31, 268, "appended by decode", "xs f-m")
+    p.text(36 + 14 * 31, 268, "future tokens: final length unknown at arrival", "xs")
+    p.wire([(330, 100), (330, 204)], "m")
+    p.text(338, 150, "writes K, V once", "xs b f-m")
+    p.wire([(620, 204), (620, 102)], "m")
+    p.text(612, 150, "reads ALL K, V every step", "xs b f-m", "end")
+    p.wire([(720, 102), (720, 160), (36 + 14 * 31 + 13, 160), (36 + 14 * 31 + 13, 204)], "s", dash=True)
+    p.text(728, 156, "append k_t, v_t", "xs b f-s")
+    p.text(20, 302, "Without a cache, step t recomputes K and V for all t tokens: O(T²) work per sequence.", "xs")
+    p.text(20, 318, "With a cache, each step is O(T) reads. The price is memory, and every step re-reads all of it.", "xs b")
+    return p
+
+
+def plate_ledger() -> Plate:
+    p = Plate("ledger", 290, "The memory ledger: from one head's key to a batch, for a GQA model at 100K tokens")
+    L, hkv, dh, T, S = 32, 8, 64, 100_000, 2
+    k = hkv * dh
+    steps = [
+        ("① K per token-layer", f"{hkv} × {dh}", f"{k:,} elems"),
+        ("② + V", "K + V", f"{2 * k:,} elems"),
+        ("③ × 2 bytes", "FP16 / BF16", binary(2 * k * S)),
+        (f"④ × {L} layers", "per token", binary(2 * k * S * L)),
+        ("⑤ × 100K tokens", "one sequence", f"{2 * k * S * L * T / 1e9:.2f} GB"),
+        ("⑥ × batch 8", "eight sequences", f"{2 * k * S * L * T * 8 / 1e9:.1f} GB"),
+    ]
+    for i, (a, b, v) in enumerate(steps):
+        x = 20 + i * 162
+        p.rect(x, 16, 150, 84, "n-m" if i >= 3 else "n", rx=7)
+        p.text(x + 12, 38, a, "xs b")
+        p.text(x + 12, 56, b, "xs")
+        p.text(x + 12, 86, v, "lg" if i >= 4 else "hd")
+        if i < 5:
+            p.wire([(x + 150, 58), (x + 161, 58)], "i")
+    p.text(20, 128, f"Same model (L = {L}, H_q = 32, d_h = {dh}, FP16), different KV layout, 100K tokens, B = 1:", "xs b")
+    rows = [("MHA (H_kv = 32)", 2 * 32 * dh * S * L, "n-mm"), ("GQA-8", 2 * 8 * dh * S * L, "n-m"),
+            ("GQA-8 + FP8 KV", 2 * 8 * dh * 1 * L, "n-m"), ("MLA (d_c 256 + d_R 32)", (256 + 32) * S * L, "n-s"),
+            ("MQA (H_kv = 1)", 2 * 1 * dh * S * L, "n-m")]
+    full = rows[0][1]
+    for i, (name, per_tok, cls) in enumerate(rows):
+        y = 140 + i * 28
+        p.text(20, y + 15, name, "xs b")
+        p.rect(200, y + 2, max(480 * per_tok / full, 3), 18, cls, rx=3)
+        p.text(200 + max(480 * per_tok / full, 3) + 8, y + 15,
+               f"{binary(per_tok)}/token · {per_tok * T / 1e9:.2f} GB · {full / per_tok:.3g}× smaller" if i else
+               f"{binary(per_tok)}/token · {per_tok * T / 1e9:.2f} GB · baseline", "xs")
+    return p
+
+
+def plate_vram() -> Plate:
+    p = Plate("vram", 350, "Where an A100's 40 GB goes, and how context length divides the batch")
+    kv = 2 * 32 * 8 * 64 * 2 * 100_000 / 1e9
+    parts = [("weights 7B × 2 B", 14.0, "n"), ("KV 100K", kv, "n-m"), ("activations", 1.5, "n-p"),
+             ("workspace", 1.0, "n-p"), ("runtime", 1.5, "n-p")]
+    used = sum(v for _, v, _ in parts)
+    parts.append((f"free {40 - used:.2f} GB", 40 - used, "n"))
+    scale, x = 960 / 40, 20.0
+    p.text(20, 18, "A100-40GB · 7B FP16 · GQA-8 (toy d_h = 64) · 100K-token context · B = 1", "xs b")
+    for i, (name, v, cls) in enumerate(parts):
+        w = v * scale
+        extra = ' stroke-dasharray="5 4"' if i == len(parts) - 1 else ""
+        p.rect(x, 30, w, 44, cls, rx=3, extra=extra)
+        if w > 70:
+            p.text(x + 8, 50, name, "xs b")
+            p.text(x + 8, 66, f"{v:.2f} GB", "xs")
+        x += w
+    p.text(20 + (14 + kv) * scale, 92, "grey: activations 1.5 · CUDA workspace 1.0 · runtime/allocator 1.5 GB", "xs")
+    p.text(20, 132, "Common mistake: 40 − 14 GB of weights = 26 GB of KV. Reserve ~4–6 GB for everything that is neither.", "xs f-x")
+    p.text(20, 166, "B_max = floor( (VRAM − weights − overhead) ÷ KV per sequence )   with a 22 GB KV pool (40 − 14 − 4):", "sm b")
+    per_tok = 2 * 32 * 8 * 64 * 2
+    for i, T in enumerate((100_000, 8_192, 4_096)):
+        y = 186 + i * 50
+        per_seq = per_tok * T / 1e9
+        bmax = math.floor(22 / per_seq)
+        p.text(20, y + 16, f"{T:,} tokens", "sm b")
+        p.text(20, y + 32, f"{per_seq:.3g} GB per sequence", "xs")
+        for u in range(bmax):
+            p.rect(200 + u * 8.6, y + 6, 6.6, 22, "n-m", rx=1.5)
+        p.text(200 + bmax * 8.6 + 10, y + 22, f"{bmax} sequences", "sm b")
+    p.text(20, 340, "MHA at 100K needs 26.2 GB per sequence: zero fit. Concurrency is capped by KV, not by weights.", "xs")
+    return p
+
+
+def plate_roofline() -> Plate:
+    p = Plate("roofline", 370, "Roofline: attainable TFLOPS = min(peak, AI × bandwidth), on an A100 and an H100")
+    x0, x1, y0, y1 = 70, 600, 24, 310
+    lx = (math.log10(0.5), math.log10(3000))
+    ly = (0, 3.2)
+
+    def px(ai):
+        return x0 + (math.log10(ai) - lx[0]) / (lx[1] - lx[0]) * (x1 - x0)
+
+    def py(tf):
+        return y1 - (math.log10(tf) - ly[0]) / (ly[1] - ly[0]) * (y1 - y0)
+
+    p.add(f'<path d="M{x0},{y0} L{x0},{y1} L{x1},{y1}" class="w-i"/>')
+    for ai in (1, 10, 100, 1000):
+        p.add(f'<path d="M{px(ai):g},{y1} L{px(ai):g},{y1 + 5}" class="w-i"/>')
+        p.text(px(ai), y1 + 18, f"{ai:,}", "xs", "middle")
+    for tf in (1, 10, 100, 1000):
+        p.text(x0 - 8, py(tf) + 4, f"{tf:,}", "xs", "end")
+    p.text((x0 + x1) / 2, y1 + 36, "arithmetic intensity AI = FLOPs ÷ bytes (log)", "xs", "middle")
+    p.add(f'<text x="{x0 - 44}" y="{(y0 + y1) / 2}" class="xs" text-anchor="middle" '
+          f'transform="rotate(-90 {x0 - 44} {(y0 + y1) / 2})">attainable TFLOPS (log)</text>')
+    for peak, bw, k, name in ((H100_TFLOPS, H100_BW, "i", "H100"), (A100_TFLOPS, A100_BW, "c", "A100")):
+        ridge = peak / bw
+        pts = [(0.5, 0.5 * bw), (ridge, peak), (3000, peak)]
+        d = "M" + " L".join(f"{px(a):g},{py(t):g}" for a, t in pts)
+        p.add(f'<path d="{d}" class="w-{k}{" dash" if k == "i" else ""}"/>')
+        p.text(px(3000) - 4, py(peak) - 6, f"{name} {peak:g} TFLOPS · ridge ≈ {ridge:.0f}", "xs b", "end")
+    pts = [("MHA decode attn", 1), ("GQA-8 decode attn", 4), ("MQA decode attn", 32),
+           ("weight GEMV, B = 128", 128), ("prefill GEMM", 500)]
+    for i, (name, ai) in enumerate(pts):
+        tf = min(A100_TFLOPS, ai * A100_BW)
+        cls = "n-m" if ai < A100_TFLOPS / A100_BW else "n-c"
+        p.add(f'<circle cx="{px(ai):g}" cy="{py(tf):g}" r="5" class="{cls}"/>')
+        dx, anchor = (8, "start") if i != 3 else (-8, "end")
+        p.text(px(ai) + dx, py(tf) + ((-8 if i == 0 else 16) if i < 3 else (-10 if i == 3 else 22)), f"{name}: {tf:.3g}", "xs b", anchor)
+    p.text(px(1.2), py(400), "← memory-bound", "xs b f-m")
+    p.text(px(250), py(12), "compute-bound →", "xs b f-c")
+    cards = [
+        ("n-m", "Decode attention: AI = H_q / H_kv", ["MHA 1, GQA-8 4, MQA 32: all far", "below the ridge (~200). GQA's win", "is fewer bytes, not a new regime."]),
+        ("n-c", "Weight GEMV: AI = batch size", ["batching reuses each weight read;", "B ≈ 200 reaches the A100 ridge.", "KV capacity caps B first."]),
+        ("n", "Newer GPUs: the ridge rises", ["H100 adds FLOPs faster than", "bandwidth (ridge ≈ 295), so decode", "gets MORE memory-bound."]),
+    ]
+    y = 24
+    for cls, title, rows in cards:
+        h = 30 + 15 * len(rows)
+        p.rect(640, y, 340, h, cls, rx=6)
+        p.text(654, y + 20, title, "xs b")
+        p.lines(654, y + 38, rows, "xs")
+        y += h + 12
+    p.text(640, y + 14, "Rule: AI < ridge → cut bytes.", "sm b")
+    p.text(640, y + 32, "AI > ridge → cut or speed up FLOPs.", "sm b")
+    return p
+
+
+def plate_problems() -> Plate:
+    p = Plate("problems", 350, "Four ways the KV cache hurts: capacity, bandwidth, allocation, quality")
+    cols = [
+        ("n-m", "CAPACITY", "can it fit?", ["KV grows with T and B", "64 KiB/token × 100K = 6.55 GB", "B = 4 → 26.2 GB: OOM"],
+         "GQA/MLA, FP8 KV, admission", "concurrency, quality"),
+        ("n-x", "BANDWIDTH", "can HBM feed the cores?", ["every token re-reads all K/V", "MHA 26.2 GB ÷ 1.555 TB/s", "= 16.8 ms per token"],
+         "fewer bytes: GQA, FP8, window", "information removed"),
+        ("n-c", "ALLOCATION", "where do the bytes live?", ["max_len slabs + holes:", "only 20.4–38.2% held tokens", "(vLLM paper, old systems)"],
+         "paged blocks, prefix sharing", "block-table indirection"),
+        ("n-s", "QUALITY", "can it still retrieve?", ["each byte saved can drop", "information; MQA: 32 heads", "read one K/V"],
+         "GQA, MLA, careful quant", "retraining, kernels"),
+    ]
+    for c, (cls, name, q, why, fix, cost) in enumerate(cols):
+        x = 20 + c * 245
+        p.rect(x, 16, 225, 54, cls, rx=7)
+        p.text(x + 14, 38, name, "hd")
+        p.text(x + 14, 57, q, "xs")
+        p.rect(x, 80, 225, 196, "n", rx=7)
+        p.text(x + 14, 102, "WHY", "xs b f-i")
+        p.lines(x + 14, 120, why, "xs")
+        p.add(f'<path d="M{x + 14},{170} L{x + 211},{170}" class="rule"/>')
+        p.text(x + 14, 192, "FIX", "xs b f-c")
+        p.text(x + 14, 210, fix, "xs")
+        p.add(f'<path d="M{x + 14},{226} L{x + 211},{226}" class="rule"/>')
+        p.text(x + 14, 248, "COST", "xs b f-x")
+        p.text(x + 14, 266, cost, "xs")
+    p.rect(20, 292, 960, 44, "n-p", rx=7)
+    p.text(500, 312, "The KV cache is capacity + bandwidth + latency + concurrency + scheduling + quality at once.", "sm b", "middle")
+    p.text(500, 328, "Modern inference engineering controls how information moves through the memory hierarchy.", "xs", "middle")
+    return p
+
+
+def plate_rope() -> Plate:
+    p = Plate("rope", 340, "RoPE: rotate each pair by m·θ_i; dot products then depend only on the offset")
+    cx, cy, r = 150, 150, 92
+    p.add(f'<circle cx="{cx}" cy="{cy}" r="{r}" class="rule"/>')
+    p.add(f'<path d="M{cx - r - 12},{cy} L{cx + r + 12},{cy} M{cx},{cy - r - 12} L{cx},{cy + r + 12}" class="rule"/>')
+    a0, a1 = math.radians(18), math.radians(18 + 60)
+    p.wire([(cx, cy), (cx + r * math.cos(a0), cy - r * math.sin(a0))], "i")
+    p.wire([(cx, cy), (cx + r * math.cos(a1), cy - r * math.sin(a1))], "x")
+    arc = f"M{cx + 46 * math.cos(a0):g},{cy - 46 * math.sin(a0):g} A46,46 0 0 0 {cx + 46 * math.cos(a1):g},{cy - 46 * math.sin(a1):g}"
+    p.add(f'<path d="{arc}" class="w-x dash"/>')
+    p.text(cx + 52, cy - 50, "m·θ_i", "xs b f-x")
+    p.text(20, 22, "one pair (x_2i, x_2i+1) of q or k", "xs b")
+    p.text(20, 268, "rotation keeps |x|; position lives in the angle", "xs")
+    p.text(20, 284, "⟨R_m q, R_n k⟩ = ⟨q, R_(n−m) k⟩", "sm b")
+    # spectrum
+    x0, x1, y0, y1 = 340, 660, 30, 250
+    p.add(f'<path d="M{x0},{y0} L{x0},{y1} L{x1},{y1}" class="w-i"/>')
+
+    def py(lam):
+        return y1 - (math.log10(lam) - 0) / 7 * (y1 - y0)
+
+    for e in (1, 3, 5, 7):
+        p.text(x0 - 6, py(10 ** e) + 4, f"1e{e}", "xs", "end")
+    for base, k, name in ((10_000, "c", "base 10,000"), (500_000, "s", "base 500,000 (Llama-3)")):
+        d = "M" + " L".join(f"{x0 + i / 63 * (x1 - x0):g},{py(2 * math.pi * base ** (2 * i / 128)):g}" for i in range(64))
+        p.add(f'<path d="{d}" class="w-{k}"/>')
+        lam = 2 * math.pi * base ** (126 / 128)
+        p.text(x1 - 4, py(lam) - 6, f"{name}: up to {lam:,.0f}", "xs b", "end")
+    p.wire([(x0, py(8192)), (x1, py(8192))], "x", arrow=False, dash=True)
+    p.text(x0 + 6, py(8192) - 6, "8,192 = trained context", "xs f-x")
+    p.text((x0 + x1) / 2, y1 + 18, "pair index i = 0 … 63 (d_h = 128)", "xs", "middle")
+    p.text(x0, 22, "wavelength λ_i = 2π · base^(2i/d_h), tokens (log)", "xs b")
+    p.text(x0, y1 + 40, "pairs above the red line never finished a turn", "xs")
+    p.text(x0, y1 + 55, "in training: PI, NTK and YaRN rescale their θ_i.", "xs")
+    # cache
+    p.text(700, 22, "how RoPE meets the KV cache", "xs b")
+    for i, lab in enumerate(["R_0 k_0", "R_1 k_1", "R_2 k_2", "…", "R_t-1 k"]):
+        p.node(700, 34 + i * 34, 130, 28, "n-m", lab, dot=False, tcls="xs b")
+    p.node(850, 34 + 4 * 34, 130, 28, "n-c", "R_t q_t (new)", dot=False, tcls="xs b")
+    p.wire([(848, 48 + 4 * 34), (832, 48 + 4 * 34)], "c")
+    p.lines(700, 222, ["keys are cached ALREADY rotated at", "their absolute position n; only the", "new query rotates. V is never rotated.",
+                       "Anything that renumbers positions", "(windows, θ changes, MLA absorption)", "needs pre-RoPE K or a re-rotation."], "xs")
+    return p
+
+
+def plate_frag() -> Plate:
+    p = Plate("frag", 270, "Contiguous max_len slabs strand memory; paged blocks place any request in any free block")
+    cw, pitch = 27, 30
+    contiguous = list("AAAAAAaaaaBBbbbb.....CCCCcccc...")
+    paged = list("AEC.BA.EEC.A.CEA..B.ECA..A.E....")
+    assert len(contiguous) == len(paged) == 32 and paged.count(".") == 14
+    for row, (cells, title) in enumerate(((contiguous, "CONTIGUOUS · reserve max_len per request"),
+                                          (paged, "PAGED · fixed blocks on demand"))):
+        y = 30 + row * 104
+        p.text(20, y - 8, title, "xs b")
+        for i, c in enumerate(cells):
+            x = 20 + i * pitch
+            if c == ".":
+                p.rect(x, y, cw, 34, "n", rx=3, extra=' stroke-dasharray="3 3"')
+            elif c.islower():
+                p.rect(x, y, cw, 34, "n-x", rx=3)
+                p.text(x + cw / 2, y + 22, c.upper(), "xs", "middle")
+            else:
+                p.rect(x, y, cw, 34, "n-m", rx=3)
+                p.text(x + cw / 2, y + 22, c, "xs b", "middle")
+    p.text(20, 84, "E needs 6 cells. 8 are free, but the largest hole is 5: E is refused (external fragmentation).", "xs f-x")
+    p.text(20, 99, "Crimson = reserved for a max_len the request never reaches (internal fragmentation): 12 of 32 cells hold tokens.", "xs")
+    p.text(20, 188, "A 6, B 2, C 4, E 6 = 18 used, 14 free. Any free block works, so E fits.", "xs f-c")
+    p.text(20, 203, "Waste is only each sequence's last partial block: under 4% in vLLM, vs 20.4–38.2% useful before.", "xs")
+    for k, (cls, lab) in enumerate([("n-m", "token K/V"), ("n-x", "reserved, never used"), ("n", "free")]):
+        x = 20 + k * 220
+        p.rect(x, 236, 14, 14, cls, rx=3)
+        p.text(x + 22, 247, lab, "xs")
+    return p
+
+
+def plate_blocks() -> Plate:
+    p = Plate("blocks", 340, "Logical blocks → block table → scattered physical blocks, with block_size 4 for readability")
+    seqs = [("A", 11, [2, 0, 3], 30), ("B", 6, [5, 7], 200)]
+    for name, ntok, table, y0 in seqs:
+        p.text(20, y0 - 8, f"sequence {name} · {ntok} tokens", "xs b")
+        p.text(300, y0 - 8, f"block table {name}", "xs b")
+        for j, phys in enumerate(table):
+            y = y0 + j * 40
+            for s in range(4):
+                tok = j * 4 + s
+                p.rect(20 + s * 40, y, 36, 30, "n-m" if tok < ntok else "n", rx=3,
+                       extra="" if tok < ntok else ' stroke-dasharray="3 3"')
+                if tok < ntok:
+                    p.text(38 + s * 40, y + 20, str(tok), "xs", "middle")
+            p.text(190, y + 20, f"L{j}", "xs b")
+            p.node(300, y, 80, 30, "n-s", f"L{j} → P{phys}", dot=False, tcls="xs b")
+            p.wire([(214, y + 15), (298, y + 15)], "i")
+            bend = 396 + (phys % 4) * 18
+            p.wire([(380, y + 15), (bend, y + 15), (bend, 36 + phys * 36), (478, 36 + phys * 36)], "s")
+    owner = {2: "A:L0", 0: "A:L1", 3: "A:L2", 5: "B:L0", 7: "B:L1"}
+    p.text(480, 18, "physical pool", "xs b")
+    for i in range(8):
+        y = 22 + i * 36
+        o = owner.get(i)
+        p.node(480, y, 130, 28, "n-m" if o else "n", f"P{i} {o or 'free'}", dot=False, tcls="xs b" if o else "xs")
+    p.rect(650, 20, 330, 150, "n-p", rx=7)
+    p.text(664, 42, "address translation (block_size 16)", "xs b")
+    p.lines(664, 62, ["token position p = 37", "logical block j = p // 16 = 2", "offset o = p % 16 = 5",
+                      "block_table[2] = 3", "physical slot = 3 · 16 + 5 = 53"], "xs", step=18)
+    p.lines(650, 196, ["Each sequence sees one contiguous space;", "the table hides where the pieces live.",
+                       "Only the LAST block can be partly empty:", "waste ≤ block_size − 1 tokens per sequence.",
+                       "Growth appends a table entry: O(1),", "never an O(T) copy of the cache."], "xs", step=16)
+    return p
+
+
+def plate_share() -> Plate:
+    p = Plate("share", 320, "Prefix sharing: hash-chained blocks, reference counts and copy-on-write")
+    p.text(20, 18, "1,000 users share one 2,000-token system prompt (block 16 tokens, 2 MiB per block on Llama-3-8B)", "xs b")
+    labels = ["b0", "b1", "b2", "…", "b124"]
+    for i, b in enumerate(labels):
+        x = 20 + i * 118
+        p.node(x, 32, 104, 30, "n-s", b, dot=False, tcls="xs b")
+        h = "h0 = H(∅, b0)" if i == 0 else ("…" if b == "…" else f"h{b[1:]} = H(h{int(b[1:]) - 1}, {b})")
+        p.text(x + 52, 80, h, "xs", "middle")
+        if i < 4:
+            p.wire([(x + 104, 47), (x + 116, 47)], "s")
+    blocks = 2000 // 16
+    mib = blocks * 2
+    p.lines(20, 112, [f"no sharing: 1,000 × {blocks} blocks × 2 MiB = {1000 * mib:,} MiB ≈ {1000 * mib / 1024:.0f} GiB of identical K/V",
+                      f"shared:     {blocks} blocks × 2 MiB = {mib} MiB once, refcount = 1,000 (+ small private tails)",
+                      "prefill:    users 2 … 1,000 skip the 2,000 shared tokens: TTFT covers only their own suffix"], "xs", step=17)
+    p.text(20, 178, "One changed token early (say, a timestamp) breaks the chain for every later block.", "xs f-x")
+    p.text(20, 214, "refcount of a shared block over time", "xs b")
+    for i, (rc, ev) in enumerate([(3, "A, B, C share it"), (2, "A finishes"), (1, "B finishes"), (0, "C finishes")]):
+        x = 20 + i * 132
+        p.node(x, 226, 112, 40, "n-s" if rc else "n", f"refcount {rc}" if rc else "free (cached)", dot=False, tcls="xs b")
+        p.text(x + 56, 284, ev, "xs", "middle")
+        if i < 3:
+            p.wire([(x + 112, 246), (x + 130, 246)], "i")
+    rules = [("fork / share", "ref += 1"), ("write while ref > 1", "copy block, ref −= 1"),
+             ("write while ref = 1", "in place"), ("sequence freed", "ref −= 1; at 0 → LRU pool")]
+    p.text(570, 214, "copy-on-write rules", "xs b")
+    for i, (a, b) in enumerate(rules):
+        y = 226 + i * 22
+        p.text(570, y + 12, a, "xs b")
+        p.text(740, y + 12, b, "xs")
+    return p
+
+
+def plate_sched() -> Plate:
+    p = Plate("sched", 370, "The scheduler: a request's life in blocks, and why continuous batching keeps slots full")
+    steps = [("arrive", "n"), ("tokenize", "n"), ("prefix hit?", "d"), ("prefill", "n-c"), ("decode step", "n-s"),
+             ("block full?", "d"), ("EOS?", "d"), ("free blocks", "n-m")]
+    x = 20
+    xs = []
+    for name, kind in steps:
+        w = 112 if kind == "d" else 98
+        if kind == "d":
+            p.diamond(x + w / 2, 60, w / 2, 26, name, "xs")
+        else:
+            p.node(x, 42, w, 36, kind, name, dot=False, tcls="xs b")
+        xs.append((x, w))
+        x += w + 18
+    for (xa, wa), (xb, _) in itertools.pairwise(xs):
+        p.wire([(xa + wa, 60), (xb - 2, 60)], "i")
+    hx, hw = xs[2]
+    p.text(hx + hw / 2, 104, "hit: reuse blocks", "xs f-s", "middle")
+    p.text(hx + hw / 2, 118, "miss: allocate", "xs", "middle")
+    bx, bw = xs[5]
+    p.text(bx + bw / 2, 104, "yes: append 1 block", "xs f-m", "middle")
+    dx, dw = xs[4]
+    ex, ew = xs[6]
+    p.wire([(ex + ew / 2, 84), (ex + ew / 2, 136), (dx + dw / 2, 136), (dx + dw / 2, 80)], "s", dash=True)
+    p.text((dx + ex + ew) / 2, 150, "no: next iteration (every running request, one token each)", "xs", "middle")
+    p.text(20, 196, "Static vs continuous batching · A = 20, B = 500, C = 50, D = 1,000 tokens (linear scale)", "xs b")
+    lens = [("A", 20), ("B", 500), ("C", 50), ("D", 1000)]
+    scale = 400 / 1000
+    for i, (name, n) in enumerate(lens):
+        y = 212 + i * 26
+        p.text(20, y + 14, name, "xs b")
+        p.rect(40, y, n * scale, 18, "n-s", rx=3)
+        if n < 1000:
+            p.rect(40 + n * scale, y, (1000 - n) * scale, 18, "n-x", rx=3, extra=' opacity="0.55"')
+    useful = sum(n for _, n in lens) / 4000
+    p.text(40, 334, f"static: slots idle until D ends → {useful:.0%} useful", "xs b f-x")
+    fills = [[("A", 20), ("E", 300), ("G", 400), ("I", 280)], [("B", 500), ("F", 500)], [("C", 50), ("H", 600), ("J", 350)],
+             [("D", 1000)]]
+    for i, row in enumerate(fills):
+        y = 212 + i * 26
+        x = 540
+        for name, n in row:
+            p.rect(x, y, n * scale - 2, 18, "n-s", rx=3)
+            if n * scale > 16:
+                p.text(x + 6, y + 13, name, "xs b")
+            x += n * scale
+    p.text(540, 334, "continuous: a finished slot is refilled the next iteration", "xs b f-c")
+    p.text(540, 350, "(E … J illustrative; needs per-iteration alloc/free = paged KV)", "xs")
+    return p
+
+
+def plate_flash() -> Plate:
+    p = Plate("flash", 360, "FlashAttention: stream K/V tiles through SRAM with an online softmax; never write T×T to HBM")
+    T = 100_000
+    p.group(20, 20, 600, 96, "HBM · large and slow (A100: 40 GB, 1.555 TB/s)", lcls="xs b")
+    for i, (name, cls) in enumerate([("Q  (T × d_h)", "n-c"), ("K  (T × d_h)", "n-m"), ("V  (T × d_h)", "n-m"), ("O  (T × d_h)", "n-c")]):
+        p.node(34 + i * 146, 46, 132, 54, cls, name, dot=False, tcls="xs b")
+    p.group(20, 160, 600, 96, "SRAM / registers · tiny and fast · the inner loop lives here", lcls="xs b")
+    for i, (name, cls) in enumerate([("Q_i  B_r×d", "n-c"), ("K_j  B_c×d", "n-m"), ("V_j  B_c×d", "n-m"), ("S_ij  B_r×B_c", "n"), ("m, l  O_i", "n-s")]):
+        p.node(34 + i * 116, 188, 104, 54, cls, name, dot=False, tcls="xs b")
+    p.wire([(100, 100), (86, 186)], "c")
+    p.text(100, 140, "load Q_i once", "xs")
+    p.wire([(246, 100), (202, 186)], "m")
+    p.wire([(392, 100), (318, 186)], "m")
+    p.text(320, 140, "stream K_j, V_j", "xs", "middle")
+    p.wire([(560, 186), (544, 100)], "c")
+    p.text(540, 140, "write O_i once", "xs", "end")
+    gb = T * T * 2 / 1e9
+    p.lines(20, 284, [f"Standard attention writes S = QKᵀ (T × T) to HBM: at T = {T:,} that is {gb:.0f} GB per head per layer,",
+                      "read back for the softmax and again for P·V. FlashAttention keeps S in SRAM: extra memory O(T), not O(T²).",
+                      "The output is exact. It reduces HBM traffic but does not shrink the KV cache or decide where it lives."], "xs", step=16)
+    l1 = math.exp(1 - 3) + math.exp(0)
+    a = math.exp(3 - 5)
+    l2 = a * l1 + 1
+    direct = math.exp(1 - 5) + math.exp(3 - 5) + 1
+    p.rect(650, 20, 330, 236, "n-p", rx=7)
+    p.text(664, 42, "online softmax, one row", "xs b")
+    p.lines(664, 62, ["m' = max(m, rowmax S_ij)", "a  = exp(m − m')", "l  = a·l + Σ exp(S_ij − m')", "O  = a·O + exp(S_ij − m')·V_j",
+                      "end: O / l   (exact)"], "xs", step=17)
+    p.text(664, 160, "worked: tile 1 scores [1, 3]", "xs b")
+    p.lines(664, 178, [f"m = 3, l = e^-2 + 1 = {l1:.4f}", "tile 2 score [5] → m' = 5",
+                       f"l = {a:.4f} · {l1:.4f} + 1 = {l2:.4f}", f"direct: e^-4 + e^-2 + 1 = {direct:.4f} ✓"], "xs", step=17)
+    return p
+
+
+def plate_frontier() -> Plate:
+    p = Plate("frontier", 400, "What open models cache per token (all layers, BF16), derived from public configs")
+    models = [  # name, design, (layers, kv heads, head dim) or ("mla", layers), cls
+        ("Llama-3.1-405B", "GQA 128/8", (126, 8, 128), "n-m"),
+        ("Llama-3-70B", "GQA 64/8", (80, 8, 128), "n-m"),
+        ("Qwen2.5-72B", "GQA 64/8", (80, 8, 128), "n-m"),
+        ("Llama-3-8B", "GQA 32/8", (32, 8, 128), "n-m"),
+        ("Mistral-7B v0.1", "GQA + 4K window", (32, 8, 128), "n-c"),
+        ("DeepSeek-V3 / R1", "MLA 512 + 64", ("mla", 61), "n-s"),
+        ("Kimi K2", "MLA (V3 design)", ("mla", 61), "n-s"),
+        ("Qwen2.5-7B", "GQA 28/4", (28, 4, 128), "n-m"),
+        ("gpt-oss-120b", "GQA, 18 full layers", (18, 8, 64), "n-c"),
+        ("Falcon-7B", "MQA 71/1", (32, 1, 64), "n-x"),
+    ]
+    p.text(20, 18, "model", "xs b")
+    p.text(190, 18, "attention", "xs b")
+    p.text(370, 18, "KV per token", "xs b")
+    p.text(860, 18, "one 128K sequence", "xs b")
+    biggest = 2 * 126 * 8 * 128 * 2
+    for i, (name, design, cfg, cls) in enumerate(models):
+        y = 30 + i * 32
+        per_tok = (cfg[1] * (D_C + D_R) * 2) if cfg[0] == "mla" else 2 * cfg[0] * cfg[1] * cfg[2] * 2
+        seq = per_tok * 131_072
+        if "window" in design:
+            seq = per_tok * 4096
+        p.text(20, y + 17, name, "xs b")
+        p.text(190, y + 17, design, "xs")
+        w = max(380 * per_tok / biggest, 3)
+        p.rect(370, y + 4, w, 20, cls, rx=3)
+        p.text(370 + w + 8, y + 18, f"{per_tok / 1024:.3g} KiB", "xs b")
+        size = f"{seq / 2**30:.3g} GiB" if seq >= 2**30 else f"{seq / 2**20:.3g} MiB"
+        p.text(860, y + 17, size + (" (window cap)" if "window" in design else ""), "xs")
+    p.text(20, 362, "DeepSeek-V3 (671B, MLA) caches less per token than Llama-3-8B (GQA): 68.6 vs 128 KiB. Architecture beats size.", "xs b")
+    p.text(20, 380, "gpt-oss-120b: growing part only (18 full-attention layers); its window layers add a small fixed amount. "
+                    "Verify a model card before quoting.", "xs")
+    return p
+
+
+STORY_PLATES = [plate_pipeline, plate_ledger, plate_vram, plate_roofline, plate_problems, plate_rope,
+                plate_frag, plate_blocks, plate_share, plate_sched, plate_flash, plate_frontier]
+
 
 PLATES = [plate_terms, plate_heads, plate_cells, plate_mla, plate_quality, plate_bandwidth,
           plate_layers, plate_state, plate_timeline, plate_decide, plate_stack,

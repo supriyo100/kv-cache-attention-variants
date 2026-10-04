@@ -1,0 +1,49 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 290" role="img" aria-label="The memory ledger: from one head&#x27;s key to a batch, for a GQA model at 100K tokens">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="ledger-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="ledger-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="ledger-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="ledger-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="ledger-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<rect x="20" y="16" width="150" height="84" rx="7" class="n"/>
+<text x="32" y="38" class="xs b">① K per token-layer</text>
+<text x="32" y="56" class="xs">8 × 64</text>
+<text x="32" y="86" class="hd">512 elems</text>
+<path d="M170,58 L181,58" class="w-i" marker-end="url(#ledger-ai)"/>
+<rect x="182" y="16" width="150" height="84" rx="7" class="n"/>
+<text x="194" y="38" class="xs b">② + V</text>
+<text x="194" y="56" class="xs">K + V</text>
+<text x="194" y="86" class="hd">1,024 elems</text>
+<path d="M332,58 L343,58" class="w-i" marker-end="url(#ledger-ai)"/>
+<rect x="344" y="16" width="150" height="84" rx="7" class="n"/>
+<text x="356" y="38" class="xs b">③ × 2 bytes</text>
+<text x="356" y="56" class="xs">FP16 / BF16</text>
+<text x="356" y="86" class="hd">2 KiB</text>
+<path d="M494,58 L505,58" class="w-i" marker-end="url(#ledger-ai)"/>
+<rect x="506" y="16" width="150" height="84" rx="7" class="n-m"/>
+<text x="518" y="38" class="xs b">④ × 32 layers</text>
+<text x="518" y="56" class="xs">per token</text>
+<text x="518" y="86" class="hd">64 KiB</text>
+<path d="M656,58 L667,58" class="w-i" marker-end="url(#ledger-ai)"/>
+<rect x="668" y="16" width="150" height="84" rx="7" class="n-m"/>
+<text x="680" y="38" class="xs b">⑤ × 100K tokens</text>
+<text x="680" y="56" class="xs">one sequence</text>
+<text x="680" y="86" class="lg">6.55 GB</text>
+<path d="M818,58 L829,58" class="w-i" marker-end="url(#ledger-ai)"/>
+<rect x="830" y="16" width="150" height="84" rx="7" class="n-m"/>
+<text x="842" y="38" class="xs b">⑥ × batch 8</text>
+<text x="842" y="56" class="xs">eight sequences</text>
+<text x="842" y="86" class="lg">52.4 GB</text>
+<text x="20" y="128" class="xs b">Same model (L = 32, H_q = 32, d_h = 64, FP16), different KV layout, 100K tokens, B = 1:</text>
+<text x="20" y="155" class="xs b">MHA (H_kv = 32)</text>
+<rect x="200" y="142" width="480" height="18" rx="3" class="n-mm"/>
+<text x="688" y="155" class="xs">256 KiB/token · 26.21 GB · baseline</text>
+<text x="20" y="183" class="xs b">GQA-8</text>
+<rect x="200" y="170" width="120" height="18" rx="3" class="n-m"/>
+<text x="328" y="183" class="xs">64 KiB/token · 6.55 GB · 4× smaller</text>
+<text x="20" y="211" class="xs b">GQA-8 + FP8 KV</text>
+<rect x="200" y="198" width="60" height="18" rx="3" class="n-m"/>
+<text x="268" y="211" class="xs">32 KiB/token · 3.28 GB · 8× smaller</text>
+<text x="20" y="239" class="xs b">MLA (d_c 256 + d_R 32)</text>
+<rect x="200" y="226" width="33.75" height="18" rx="3" class="n-s"/>
+<text x="241.75" y="239" class="xs">18 KiB/token · 1.84 GB · 14.2× smaller</text>
+<text x="20" y="267" class="xs b">MQA (H_kv = 1)</text>
+<rect x="200" y="254" width="15" height="18" rx="3" class="n-m"/>
+<text x="223" y="267" class="xs">8 KiB/token · 0.82 GB · 32× smaller</text>
+</svg>

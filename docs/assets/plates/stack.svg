@@ -40,7 +40,7 @@
 <rect x="20" y="206" width="960" height="36" rx="5" class="n-s"/>
 <text x="34" y="229" class="sm b">1 · MODEL ARCHITECTURE</text>
 <text x="290" y="229" class="xs">GQA · MQA · MLA · CLA · YOCO · hybrid SSM</text>
-<text x="966" y="229" text-anchor="end" class="xs b f-s">this page</text>
+<text x="966" y="229" text-anchor="end" class="xs">step 5, variants</text>
 <rect x="20" y="248" width="960" height="36" rx="5" class="n-m"/>
 <text x="34" y="271" class="sm b">2 · CACHE DESIGN</text>
 <text x="290" y="271" class="xs">paged KV · prefix cache · KV quantization · offloading</text>
