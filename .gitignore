@@ -22,6 +22,7 @@ htmlcov/
 .idea/
 .DS_Store
 
+claude_repo
 # MkDocs build output
 /site/
 
@@ -39,12 +40,12 @@ CLAUDE.md
 answer_keys/
 assignments/
 colab/
-notebooks/
 reference_tables/
 rubrics/
 scripts/
 slides/
-tests/
+# notebooks/ and tests/ hold this fork's original notebooks and the inference_lab test suite,
+# which CI runs and the site links to, so they are tracked.
 teaching_notebooks/08_flashattention.ipynb
 teaching_notebooks/09_pytorch_sdpa.ipynb
 jupyter-implementation.md

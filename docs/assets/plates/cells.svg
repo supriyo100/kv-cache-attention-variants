@@ -1,0 +1,146 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" role="img" aria-label="Count the cells: KV numbers per token per layer for MHA, GQA-8, MQA and MLA">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="cells-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="cells-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="cells-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="cells-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="cells-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<text x="20" y="16" class="xs">one cell = 128 numbers = one head&#x27;s K or V vector, for one token in one layer  (H = 32, d_h = 128, L = 32, BF16)</text>
+<text x="20" y="45" class="hd">MHA</text>
+<text x="20" y="61" class="xs">2·H·d_h = 8,192</text>
+<rect x="200" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="212.2" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="224.4" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="236.6" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="248.8" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="261" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="273.2" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="285.4" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="297.6" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="309.8" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="322" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="334.2" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="346.4" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="358.6" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="370.8" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="383" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="395.2" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="407.4" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="419.6" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="431.8" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="444" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="456.2" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="468.4" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="480.6" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="492.8" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="505" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="517.2" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="529.4" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="541.6" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="553.8" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="566" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="578.2" y="34" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="590.4" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="602.6" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="614.8" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="627" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="639.2" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="651.4" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="663.6" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="675.8" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="688" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="700.2" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="712.4" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="724.6" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="736.8" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="749" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="761.2" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="773.4" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="785.6" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="797.8" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="810" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="822.2" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="834.4" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="846.6" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="858.8" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="871" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="883.2" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="895.4" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="907.6" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="919.8" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="932" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="944.2" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="956.4" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="968.6" y="34" width="10.6" height="24" rx="2" class="n-mm"/>
+<text x="200" y="70" class="xs">K_1 … K_32</text>
+<text x="590.4" y="70" class="xs">V_1 … V_32</text>
+<text x="20" y="93" class="hd">GQA-8</text>
+<text x="20" y="109" class="xs">2·G·d_h = 2,048</text>
+<rect x="200" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="212.2" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="224.4" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="236.6" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="248.8" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="261" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="273.2" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="285.4" y="82" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="297.6" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="309.8" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="322" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="334.2" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="346.4" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="358.6" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="370.8" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<rect x="383" y="82" width="10.6" height="24" rx="2" class="n-mm"/>
+<text x="405.2" y="98" class="sm b">= 2,048  ·  4× smaller</text>
+<text x="20" y="141" class="hd">MQA</text>
+<text x="20" y="157" class="xs">2·d_h = 256</text>
+<rect x="200" y="130" width="10.6" height="24" rx="2" class="n-m"/>
+<rect x="212.2" y="130" width="10.6" height="24" rx="2" class="n-mm"/>
+<text x="234.4" y="146" class="sm b">= 256  ·  32× smaller</text>
+<text x="20" y="189" class="hd">MLA</text>
+<text x="20" y="205" class="xs">d_c + d_R = 576</text>
+<rect x="200" y="178" width="10.6" height="24" rx="2" class="n-s"/>
+<rect x="212.2" y="178" width="10.6" height="24" rx="2" class="n-s"/>
+<rect x="224.4" y="178" width="10.6" height="24" rx="2" class="n-s"/>
+<rect x="236.6" y="178" width="10.6" height="24" rx="2" class="n-s"/>
+<rect x="248.8" y="178" width="5.3" height="24" rx="2" class="n-c"/>
+<text x="200" y="214" class="xs">c^KV = 4 cells (512)  +  k^R = half a cell (64, RoPE)</text>
+<text x="271" y="194" class="sm b">= 576  ·  14.2× smaller</text>
+<text x="20" y="236" class="xs b">method</text>
+<text x="150" y="236" class="xs b">per layer</text>
+<text x="290" y="236" class="xs b">× 2 B</text>
+<text x="420" y="236" class="xs b">× 32 layers</text>
+<text x="560" y="236" class="xs b">one 8K chat</text>
+<text x="700" y="236" class="xs b">4 chats × 8K</text>
+<text x="860" y="236" class="xs b">vs MHA</text>
+<path d="M20,243 L980,243" class="rule"/>
+<text x="20" y="262" class="sm b">MHA</text>
+<text x="150" y="262" class="sm">8,192</text>
+<text x="290" y="262" class="sm">16 KiB</text>
+<text x="420" y="262" class="sm">512 KiB</text>
+<text x="560" y="262" class="sm">4 GiB</text>
+<text x="700" y="262" class="sm">16 GiB</text>
+<text x="860" y="262" class="sm b">1×</text>
+<path d="M20,269 L980,269" class="rule"/>
+<text x="20" y="284" class="sm b">GQA-8</text>
+<text x="150" y="284" class="sm">2,048</text>
+<text x="290" y="284" class="sm">4 KiB</text>
+<text x="420" y="284" class="sm">128 KiB</text>
+<text x="560" y="284" class="sm">1 GiB</text>
+<text x="700" y="284" class="sm">4 GiB</text>
+<text x="860" y="284" class="sm b">4×</text>
+<path d="M20,291 L980,291" class="rule"/>
+<text x="20" y="306" class="sm b">MQA</text>
+<text x="150" y="306" class="sm">256</text>
+<text x="290" y="306" class="sm">512 B</text>
+<text x="420" y="306" class="sm">16 KiB</text>
+<text x="560" y="306" class="sm">128 MiB</text>
+<text x="700" y="306" class="sm">512 MiB</text>
+<text x="860" y="306" class="sm b">32×</text>
+<path d="M20,313 L980,313" class="rule"/>
+<text x="20" y="328" class="sm b">MLA</text>
+<text x="150" y="328" class="sm">576</text>
+<text x="290" y="328" class="sm">1.125 KiB</text>
+<text x="420" y="328" class="sm">36 KiB</text>
+<text x="560" y="328" class="sm">288 MiB</text>
+<text x="700" y="328" class="sm">1.125 GiB</text>
+<text x="860" y="328" class="sm b">14.2×</text>
+<path d="M20,335 L980,335" class="rule"/>
+</svg>

@@ -1,0 +1,97 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" role="img" aria-label="Architecture evolution from MHA to hybrids, and which term of the formula each attacks">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="timeline-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="timeline-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="timeline-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="timeline-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="timeline-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<rect x="20" y="20" width="228" height="172" rx="8" class="n"/>
+<text x="32" y="44" class="hd">MHA</text>
+<text x="236" y="42" text-anchor="end" class="xs">2017</text>
+<rect x="32" y="54" width="204" height="24" rx="4" class="n-p"/>
+<text x="134" y="70" text-anchor="middle" class="xs b">baseline</text>
+<text x="32" y="100" class="xs">every Q head owns</text>
+<text x="32" y="115" class="xs">its own K and V</text>
+<path d="M32,132 L236,132" class="rule"/>
+<text x="32" y="152" class="xs f-x">largest cache; every</text>
+<text x="32" y="167" class="xs f-x">head re-read per step</text>
+<path d="M249,106 L263,106" class="w-i" marker-end="url(#timeline-ai)"/>
+<rect x="264" y="20" width="228" height="172" rx="8" class="n"/>
+<text x="276" y="44" class="hd">MQA</text>
+<text x="480" y="42" text-anchor="end" class="xs">2019</text>
+<rect x="276" y="54" width="204" height="24" rx="4" class="n-s"/>
+<text x="378" y="70" text-anchor="middle" class="xs b">H_kv: 32 → 1</text>
+<text x="276" y="100" class="xs">one K/V head shared</text>
+<text x="276" y="115" class="xs">by all Q heads</text>
+<path d="M276,132 L480,132" class="rule"/>
+<text x="276" y="152" class="xs f-x">K/V diversity collapses;</text>
+<text x="276" y="167" class="xs f-x">quality can drop</text>
+<path d="M493,106 L507,106" class="w-i" marker-end="url(#timeline-ai)"/>
+<rect x="508" y="20" width="228" height="172" rx="8" class="n"/>
+<text x="520" y="44" class="hd">GQA</text>
+<text x="724" y="42" text-anchor="end" class="xs">2023</text>
+<rect x="520" y="54" width="204" height="24" rx="4" class="n-s"/>
+<text x="622" y="70" text-anchor="middle" class="xs b">H_kv: 32 → 8</text>
+<text x="520" y="100" class="xs">groups of 4 Q heads</text>
+<text x="520" y="115" class="xs">share one K/V head</text>
+<path d="M520,132 L724,132" class="rule"/>
+<text x="520" y="152" class="xs f-x">uptrain from MHA</text>
+<text x="520" y="167" class="xs f-x">with ~5% compute</text>
+<path d="M737,106 L751,106" class="w-i" marker-end="url(#timeline-ai)"/>
+<rect x="752" y="20" width="228" height="172" rx="8" class="n"/>
+<text x="764" y="44" class="hd">MLA</text>
+<text x="968" y="42" text-anchor="end" class="xs">2024</text>
+<rect x="764" y="54" width="204" height="24" rx="4" class="n-m"/>
+<text x="866" y="70" text-anchor="middle" class="xs b">H_kv·d_h → d_c + d_R</text>
+<text x="764" y="100" class="xs">cache a 512 latent</text>
+<text x="764" y="115" class="xs">+ a 64-dim RoPE key</text>
+<path d="M764,132 L968,132" class="rule"/>
+<text x="764" y="152" class="xs f-x">decoupled RoPE; retrain</text>
+<text x="764" y="167" class="xs f-x">or convert (SVD)</text>
+<rect x="20" y="248" width="228" height="172" rx="8" class="n"/>
+<text x="32" y="272" class="hd">CLA</text>
+<text x="236" y="270" text-anchor="end" class="xs">2024</text>
+<rect x="32" y="282" width="204" height="24" rx="4" class="n-s"/>
+<text x="134" y="298" text-anchor="middle" class="xs b">L → L/2</text>
+<text x="32" y="328" class="xs">adjacent layers</text>
+<text x="32" y="343" class="xs">share one KV</text>
+<path d="M32,360 L236,360" class="rule"/>
+<text x="32" y="380" class="xs f-x">layers lose private KV;</text>
+<text x="32" y="395" class="xs f-x">retrain</text>
+<path d="M249,334 L263,334" class="w-i" marker-end="url(#timeline-ai)"/>
+<rect x="264" y="248" width="228" height="172" rx="8" class="n"/>
+<text x="276" y="272" class="hd">YOCO</text>
+<text x="480" y="270" text-anchor="end" class="xs">2024</text>
+<rect x="276" y="282" width="204" height="24" rx="4" class="n-s"/>
+<text x="378" y="298" text-anchor="middle" class="xs b">L → cache once</text>
+<text x="276" y="328" class="xs">self-decoder builds ONE</text>
+<text x="276" y="343" class="xs">global KV for the rest</text>
+<path d="M276,360 L480,360" class="rule"/>
+<text x="276" y="380" class="xs f-x">new two-part decoder;</text>
+<text x="276" y="395" class="xs f-x">retrain</text>
+<path d="M493,334 L507,334" class="w-i" marker-end="url(#timeline-ai)"/>
+<rect x="508" y="248" width="228" height="172" rx="8" class="n"/>
+<text x="520" y="272" class="hd">SSM / linear</text>
+<text x="724" y="270" text-anchor="end" class="xs">2023</text>
+<rect x="520" y="282" width="204" height="24" rx="4" class="n-c"/>
+<text x="622" y="298" text-anchor="middle" class="xs b">T → fixed state</text>
+<text x="520" y="328" class="xs">s_t = f(s_t-1, x_t),</text>
+<text x="520" y="343" class="xs">no token-level KV</text>
+<path d="M520,360 L724,360" class="rule"/>
+<text x="520" y="380" class="xs f-x">lossy: weak exact</text>
+<text x="520" y="395" class="xs f-x">token retrieval</text>
+<path d="M737,334 L751,334" class="w-i" marker-end="url(#timeline-ai)"/>
+<rect x="752" y="248" width="228" height="172" rx="8" class="n"/>
+<text x="764" y="272" class="hd">Hybrid</text>
+<text x="968" y="270" text-anchor="end" class="xs">2024–25</text>
+<rect x="764" y="282" width="204" height="24" rx="4" class="n-c"/>
+<text x="866" y="298" text-anchor="middle" class="xs b">KV in 1/8–1/4 layers</text>
+<text x="764" y="328" class="xs">Jamba 1:7, Qwen3-Next</text>
+<text x="764" y="343" class="xs">3:1 recurrent:attention</text>
+<path d="M764,360 L968,360" class="rule"/>
+<text x="764" y="380" class="xs f-x">the ratio is a design</text>
+<text x="764" y="395" class="xs f-x">choice; heavy retraining</text>
+<path d="M866,192 L866,220 L134,220 L134,246" class="w-i" marker-end="url(#timeline-ai)"/>
+<rect x="20" y="448" width="14" height="14" rx="3" class="n-s"/>
+<text x="42" y="459" class="xs">share (heads or layers)</text>
+<rect x="320" y="448" width="14" height="14" rx="3" class="n-m"/>
+<text x="342" y="459" class="xs">compress what is stored</text>
+<rect x="620" y="448" width="14" height="14" rx="3" class="n-c"/>
+<text x="642" y="459" class="xs">replace the cache with a state</text>
+</svg>

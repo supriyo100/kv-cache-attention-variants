@@ -1,0 +1,105 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img" aria-label="The seven terms of the KV cache formula and the techniques that attack each one">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="terms-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="terms-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="terms-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="terms-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="terms-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<rect x="20" y="16" width="118" height="70" rx="7" class="n"/>
+<text x="79" y="48" text-anchor="middle" class="lg">2</text>
+<text x="79" y="72" text-anchor="middle" class="xs">K and V</text>
+<text x="149" y="56" text-anchor="middle" class="lg f-i">×</text>
+<rect x="20" y="104" width="118" height="42" rx="5" class="n-s"/>
+<text x="79" y="122" text-anchor="middle" class="xs b">MLA: K and V</text>
+<text x="79" y="137" text-anchor="middle" class="xs">from one latent</text>
+<path d="M79,86 L79,104" class="w-i dash"/>
+<rect x="160" y="16" width="118" height="70" rx="7" class="n"/>
+<text x="219" y="48" text-anchor="middle" class="lg">L</text>
+<text x="219" y="72" text-anchor="middle" class="xs">layers</text>
+<text x="289" y="56" text-anchor="middle" class="lg f-i">×</text>
+<rect x="160" y="104" width="118" height="42" rx="5" class="n-s"/>
+<text x="219" y="122" text-anchor="middle" class="xs b">CLA: adjacent</text>
+<text x="219" y="137" text-anchor="middle" class="xs">layers share, 2×</text>
+<path d="M219,86 L219,104" class="w-i dash"/>
+<rect x="160" y="154" width="118" height="42" rx="5" class="n-s"/>
+<text x="219" y="172" text-anchor="middle" class="xs b">YOCO: global KV</text>
+<text x="219" y="187" text-anchor="middle" class="xs">cached once</text>
+<path d="M219,146 L219,154" class="w-i dash"/>
+<rect x="160" y="204" width="118" height="42" rx="5" class="n-c"/>
+<text x="219" y="222" text-anchor="middle" class="xs b">Hybrid SSM: KV</text>
+<text x="219" y="237" text-anchor="middle" class="xs">in 1/8–1/4 layers</text>
+<path d="M219,196 L219,204" class="w-i dash"/>
+<rect x="300" y="16" width="118" height="70" rx="7" class="n"/>
+<text x="359" y="48" text-anchor="middle" class="lg">B</text>
+<text x="359" y="72" text-anchor="middle" class="xs">sequences</text>
+<text x="429" y="56" text-anchor="middle" class="lg f-i">×</text>
+<rect x="300" y="104" width="118" height="42" rx="5" class="n-p"/>
+<text x="359" y="122" text-anchor="middle" class="xs b">demand, not</text>
+<text x="359" y="137" text-anchor="middle" class="xs">a target</text>
+<path d="M359,86 L359,104" class="w-i dash"/>
+<rect x="300" y="154" width="118" height="42" rx="5" class="n-c"/>
+<text x="359" y="172" text-anchor="middle" class="xs b">Paged KV: &lt;4%</text>
+<text x="359" y="187" text-anchor="middle" class="xs">waste, more fit</text>
+<path d="M359,146 L359,154" class="w-i dash"/>
+<rect x="440" y="16" width="118" height="70" rx="7" class="n"/>
+<text x="499" y="48" text-anchor="middle" class="lg">T</text>
+<text x="499" y="72" text-anchor="middle" class="xs">tokens</text>
+<text x="569" y="56" text-anchor="middle" class="lg f-i">×</text>
+<rect x="440" y="104" width="118" height="42" rx="5" class="n-c"/>
+<text x="499" y="122" text-anchor="middle" class="xs b">Sliding window</text>
+<text x="499" y="137" text-anchor="middle" class="xs">128K→8K = 16×</text>
+<path d="M499,86 L499,104" class="w-i dash"/>
+<rect x="440" y="154" width="118" height="42" rx="5" class="n-c"/>
+<text x="499" y="172" text-anchor="middle" class="xs b">Sinks, H2O,</text>
+<text x="499" y="187" text-anchor="middle" class="xs">SnapKV eviction</text>
+<path d="M499,146 L499,154" class="w-i dash"/>
+<rect x="440" y="204" width="118" height="42" rx="5" class="n-c"/>
+<text x="499" y="222" text-anchor="middle" class="xs b">SSM: fixed</text>
+<text x="499" y="237" text-anchor="middle" class="xs">state, no T</text>
+<path d="M499,196 L499,204" class="w-i dash"/>
+<rect x="580" y="16" width="118" height="70" rx="7" class="n"/>
+<text x="639" y="48" text-anchor="middle" class="lg">H_kv</text>
+<text x="639" y="72" text-anchor="middle" class="xs">KV heads</text>
+<text x="709" y="56" text-anchor="middle" class="lg f-i">×</text>
+<rect x="580" y="104" width="118" height="42" rx="5" class="n-s"/>
+<text x="639" y="122" text-anchor="middle" class="xs b">GQA-8: 32 → 8</text>
+<text x="639" y="137" text-anchor="middle" class="xs">4× smaller</text>
+<path d="M639,86 L639,104" class="w-i dash"/>
+<rect x="580" y="154" width="118" height="42" rx="5" class="n-s"/>
+<text x="639" y="172" text-anchor="middle" class="xs b">MQA: 32 → 1</text>
+<text x="639" y="187" text-anchor="middle" class="xs">32× smaller</text>
+<path d="M639,146 L639,154" class="w-i dash"/>
+<rect x="720" y="16" width="118" height="70" rx="7" class="n"/>
+<text x="779" y="48" text-anchor="middle" class="lg">d_h</text>
+<text x="779" y="72" text-anchor="middle" class="xs">head dim</text>
+<text x="849" y="56" text-anchor="middle" class="lg f-i">×</text>
+<rect x="720" y="104" width="118" height="42" rx="5" class="n-p"/>
+<text x="779" y="122" text-anchor="middle" class="xs b">fixed by the</text>
+<text x="779" y="137" text-anchor="middle" class="xs">model width</text>
+<path d="M779,86 L779,104" class="w-i dash"/>
+<rect x="860" y="16" width="118" height="70" rx="7" class="n"/>
+<text x="919" y="48" text-anchor="middle" class="lg">S</text>
+<text x="919" y="72" text-anchor="middle" class="xs">bytes/elem</text>
+<rect x="860" y="104" width="118" height="42" rx="5" class="n-m"/>
+<text x="919" y="122" text-anchor="middle" class="xs b">FP8 KV: 2 → 1 B</text>
+<text x="919" y="137" text-anchor="middle" class="xs">2× smaller</text>
+<path d="M919,86 L919,104" class="w-i dash"/>
+<rect x="860" y="154" width="118" height="42" rx="5" class="n-m"/>
+<text x="919" y="172" text-anchor="middle" class="xs b">INT4 KV: 0.5 B</text>
+<text x="919" y="187" text-anchor="middle" class="xs">4× smaller</text>
+<path d="M919,146 L919,154" class="w-i dash"/>
+<path d="M580,260 L580,268 L838,268 L838,260" class="w-s"/>
+<text x="709" y="288" text-anchor="middle" class="sm b f-s">MLA attacks H_kv·d_h jointly</text>
+<text x="709" y="304" text-anchor="middle" class="xs">2·128·128 = 32,768 → 512 + 64 = 576 (~57×)</text>
+<text x="20" y="337" class="sm b">Not in the formula:</text>
+<rect x="180" y="318" width="250" height="32" rx="5" class="n-x"/>
+<text x="305" y="338" text-anchor="middle" class="xs b">fragmentation → PagedAttention</text>
+<rect x="448" y="318" width="250" height="32" rx="5" class="n-x"/>
+<text x="573" y="338" text-anchor="middle" class="xs b">repeated prefill → prefix caching</text>
+<rect x="716" y="318" width="250" height="32" rx="5" class="n-x"/>
+<text x="841" y="338" text-anchor="middle" class="xs b">HBM traffic per step → FlashAttention</text>
+<rect x="20" y="372" width="14" height="14" rx="3" class="n-s"/>
+<text x="42" y="383" class="xs">architecture (retrain)</text>
+<rect x="260" y="372" width="14" height="14" rx="3" class="n-c"/>
+<text x="282" y="383" class="xs">serving / runtime</text>
+<rect x="500" y="372" width="14" height="14" rx="3" class="n-m"/>
+<text x="522" y="383" class="xs">number format</text>
+<rect x="740" y="372" width="14" height="14" rx="3" class="n-x"/>
+<text x="762" y="383" class="xs">outside the formula</text>
+</svg>

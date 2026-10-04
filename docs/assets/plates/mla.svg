@@ -1,0 +1,66 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img" aria-label="MLA dataflow: contract the hidden state to a cached latent, expand only inside the math">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="mla-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="mla-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="mla-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="mla-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="mla-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<text x="190" y="34" class="sm b f-s">contract  8,192 → 576</text>
+<text x="610" y="34" class="sm b f-c">expand only when needed</text>
+<rect x="20" y="170" width="110" height="50" rx="7" class="n"/>
+<circle cx="28" cy="178" r="2.6" class="f-i"/>
+<text x="75" y="193" text-anchor="middle" class="b">h_t</text>
+<text x="75" y="208" text-anchor="middle" class="xs">[4,096]</text>
+<rect x="190" y="90" width="140" height="50" rx="7" class="n-c"/>
+<circle cx="198" cy="98" r="2.6" class="f-c"/>
+<text x="260" y="113" text-anchor="middle" class="b">W^DKV  ↓</text>
+<text x="260" y="128" text-anchor="middle" class="xs">4,096 × 512</text>
+<rect x="190" y="250" width="140" height="50" rx="7" class="n-c"/>
+<circle cx="198" cy="258" r="2.6" class="f-c"/>
+<text x="260" y="273" text-anchor="middle" class="b">W^KR + RoPE</text>
+<text x="260" y="288" text-anchor="middle" class="xs">4,096 × 64</text>
+<rect x="370" y="50" width="190" height="300" rx="10" class="grp-m"/>
+<text x="380" y="65" class="xs b">cached in HBM, per token</text>
+<rect x="390" y="90" width="150" height="50" rx="7" class="n-s"/>
+<circle cx="398" cy="98" r="2.6" class="f-s"/>
+<text x="465" y="113" text-anchor="middle" class="b">c^KV</text>
+<text x="465" y="128" text-anchor="middle" class="xs">[512] latent</text>
+<rect x="390" y="250" width="150" height="50" rx="7" class="n-c"/>
+<circle cx="398" cy="258" r="2.6" class="f-c"/>
+<text x="465" y="273" text-anchor="middle" class="b">k^R</text>
+<text x="465" y="288" text-anchor="middle" class="xs">[64] · all heads</text>
+<text x="465" y="186" text-anchor="middle" class="b">576 numbers</text>
+<text x="465" y="203" text-anchor="middle" class="xs">vs 8,192 for MHA</text>
+<text x="465" y="219" text-anchor="middle" class="xs b f-s">14.2× smaller</text>
+<rect x="610" y="60" width="140" height="50" rx="7" class="n-c"/>
+<circle cx="618" cy="68" r="2.6" class="f-c"/>
+<text x="680" y="83" text-anchor="middle" class="b">W^UK</text>
+<text x="680" y="98" text-anchor="middle" class="xs">512 → 32×128</text>
+<rect x="610" y="140" width="140" height="50" rx="7" class="n-c"/>
+<circle cx="618" cy="148" r="2.6" class="f-c"/>
+<text x="680" y="163" text-anchor="middle" class="b">W^UV</text>
+<text x="680" y="178" text-anchor="middle" class="xs">512 → 32×128</text>
+<rect x="800" y="60" width="180" height="50" rx="7" class="n"/>
+<circle cx="808" cy="68" r="2.6" class="f-i"/>
+<text x="890" y="83" text-anchor="middle" class="b">k^C_1 … k^C_32</text>
+<text x="890" y="98" text-anchor="middle" class="xs">32 heads × 128</text>
+<rect x="800" y="140" width="180" height="50" rx="7" class="n"/>
+<circle cx="808" cy="148" r="2.6" class="f-i"/>
+<text x="890" y="163" text-anchor="middle" class="b">v_1 … v_32</text>
+<text x="890" y="178" text-anchor="middle" class="xs">32 heads × 128</text>
+<rect x="800" y="250" width="180" height="50" rx="7" class="n"/>
+<circle cx="808" cy="258" r="2.6" class="f-i"/>
+<text x="890" y="273" text-anchor="middle" class="b">key of head i</text>
+<text x="890" y="288" text-anchor="middle" class="xs">[k^C_i ; k^R] = 192</text>
+<path d="M130,195 L160,195 L160,115 L188,115" class="w-c" marker-end="url(#mla-ac)"/>
+<path d="M160,195 L160,275 L188,275" class="w-c" marker-end="url(#mla-ac)"/>
+<path d="M330,115 L388,115" class="w-s" marker-end="url(#mla-as)"/>
+<path d="M330,275 L388,275" class="w-c" marker-end="url(#mla-ac)"/>
+<path d="M540,115 L575,115 L575,85 L608,85" class="w-s" marker-end="url(#mla-as)"/>
+<path d="M575,115 L575,165 L608,165" class="w-s" marker-end="url(#mla-as)"/>
+<path d="M750,85 L798,85" class="w-c" marker-end="url(#mla-ac)"/>
+<path d="M750,165 L798,165" class="w-c" marker-end="url(#mla-ac)"/>
+<path d="M980,85 L994,85 L994,275 L982,275" class="w-i" marker-end="url(#mla-ai)"/>
+<path d="M540,275 L798,275" class="w-c" marker-end="url(#mla-ac)"/>
+<rect x="590" y="318" width="390" height="66" rx="6" class="n-p"/>
+<text x="604" y="338" class="sm b">decode trick (absorption)</text>
+<text x="604" y="355" class="xs">W^UK folds into the query, W^UV into W^O:</text>
+<text x="604" y="370" class="xs">per-head K and V are never materialised.</text>
+<text x="20" y="372" class="xs">K and V are both decoded from the same c^KV, so the factor 2 disappears.</text>
+</svg>

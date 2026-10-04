@@ -1,7 +1,19 @@
-site_name: KV Cache & Attention Variants — Module 03
-site_description: Zero-to-advanced course docs — Naive Decoding through PagedAttention/vLLM
+site_name: Inference Engineering
+site_description: >-
+  LLM inference engineering from tokens to GPU systems: prefill and decode, the KV cache,
+  attention variants, paged memory, prefix sharing, scheduling, FlashAttention, long context,
+  quantization, speculative decoding and distributed serving, with derivations, simulations
+  and tested code.
+site_author: Supriyo Chakraborty
+site_url: https://supriyo100.github.io/kv-cache-attention-variants/
+repo_url: https://github.com/supriyo100/kv-cache-attention-variants
+repo_name: supriyo100/kv-cache-attention-variants
+edit_uri: edit/main/docs/
+copyright: >-
+  Original text, figures and code © Supriyo Chakraborty. Course sessions © their upstream
+  author; see <a href="resources/">Resources</a> for sources and attribution.
 docs_dir: docs
-# Pages build as sessions/05_gqa.html (not sessions/05_gqa/), so relative paths in embedded
+# Pages build as path/04-kv-cache.html (not path/04-kv-cache/), so relative paths in embedded
 # HTML resolve exactly like in the source tree. See hooks/embeds.py.
 use_directory_urls: false
 
@@ -10,30 +22,64 @@ hooks:
 
 theme:
   name: material
+  custom_dir: overrides
+  font: false  # loaded in overrides/main.html (Literata, Archivo, IBM Plex Mono)
+  icon:
+    repo: fontawesome/brands/github
   palette:
-    - scheme: default
-      primary: indigo
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/brightness-7
+        icon: material/weather-night
         name: Switch to dark mode
-    - scheme: slate
-      primary: indigo
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/brightness-4
+        icon: material/weather-sunny
         name: Switch to light mode
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.top
     - navigation.indexes
+    - navigation.footer
+    - navigation.instant
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
     - content.code.copy
-    - toc.integrate
+    - content.action.edit
+
+plugins:
+  - search
+
+extra:
+  generator: false
+  author:
+    name: Supriyo Chakraborty
+    github: https://github.com/supriyo100
+    # Set your public profile URL; the About page and footer read it from here.
+    linkedin: ""
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/supriyo100
+      name: Supriyo Chakraborty on GitHub
 
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
+  - def_list
+  - footnotes
   - md_in_html
   - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
   - tables
   - toc:
       permalink: true
@@ -41,6 +87,7 @@ markdown_extensions:
       generic: true
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.inlinehilite
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -49,31 +96,61 @@ markdown_extensions:
 
 extra_css:
   - assets/stylesheets/extra.css
+  - assets/stylesheets/ie.css
+  - assets/stylesheets/story.css
 
 extra_javascript:
-  - assets/javascripts/embeds.js
+  - assets/javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - assets/javascripts/embeds.js
+  - assets/javascripts/widgets.js
 
 nav:
   - Home: index.md
-  - Course:
-      - "00 — Foundations": sessions/00_foundations.md
-      - "01 — Naive Decoding": sessions/01_naive_decoding.md
-      - "02 — KV Cache Memory Math": sessions/02_kv_cache_memory_math.md
-      - "03 — MHA Recap": sessions/03_mha_recap.md
-      - "04 — MQA": sessions/04_mqa.md
-      - "05 — GQA": sessions/05_gqa.md
-      - "06 — MLA": sessions/06_mla.md
-      - "07 — RoPE": sessions/07_rope.md
-      - "08 — FlashAttention": sessions/08_flashattention.md
-      - "09 — PyTorch SDPA": sessions/09_pytorch_sdpa.md
-      - "10 — PagedAttention / vLLM": sessions/10_pagedattention_vllm.md
-  - Beyond the course:
+  - The path:
+      - path/index.md
+      - "1. The request": path/01-the-request.md
+      - "2. Prefill and decode": path/02-prefill-and-decode.md
+      - "3. What attention costs": path/03-attention-cost.md
+      - "4. The KV cache": path/04-kv-cache.md
+      - "5. MHA, MQA, GQA, MLA": path/05-attention-variants.md
+      - "6. Fragmentation": path/06-fragmentation.md
+      - "7. Paged KV": path/07-paged-kv.md
+      - "8. Prefix sharing": path/08-prefix-sharing.md
+      - "9. Scheduling": path/09-scheduling.md
+      - "10. FlashAttention": path/10-flashattention.md
+      - "11. Long context": path/11-long-context.md
+      - "12. Scaling out": path/12-scaling-out.md
+  - State of the art:
+      - sota/index.md
+      - "Techniques and implementations": sota/techniques.md
+  - Compare: compare/index.md
+  - Lab:
+      - lab/index.md
+      - "Interactive tools": lab/tools.md
+      - "Notebooks": lab/notebooks.md
+  - Course (upstream):
+      - "About the course": sessions/index.md
+      - "00 Foundations": sessions/00_foundations.md
+      - "01 Naive decoding": sessions/01_naive_decoding.md
+      - "02 KV cache memory math": sessions/02_kv_cache_memory_math.md
+      - "03 MHA recap": sessions/03_mha_recap.md
+      - "04 MQA": sessions/04_mqa.md
+      - "05 GQA": sessions/05_gqa.md
+      - "06 MLA": sessions/06_mla.md
+      - "07 RoPE": sessions/07_rope.md
+      - "08 FlashAttention": sessions/08_flashattention.md
+      - "09 PyTorch SDPA": sessions/09_pytorch_sdpa.md
+      - "10 PagedAttention / vLLM": sessions/10_pagedattention_vllm.md
+  - Notes:
       - "Attention variants compared": beyond/variants_compared.md
       - "KV cache SOTA map": beyond/sota_map.md
       - "Inference problems": beyond/inference_problems.md
-      - "Serving stack & scheduler": beyond/serving.md
-  - Study notes:
+      - "Serving stack and scheduler": beyond/serving.md
       - "Deep-dive explanation": study/explanation.md
       - "Interview questions": study/interview_questions.md
-  - Gallery: gallery.md
+      - "Diagram gallery": gallery.md
+  - About:
+      - about.md
+      - "Sources and attribution": resources.md
+      - "References": references.md

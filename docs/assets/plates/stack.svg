@@ -1,0 +1,60 @@
+<svg class="vsp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" role="img" aria-label="Where attention variants sit in the inference stack">
+<style>.vsp{font-family:var(--ie-font-mono,"IBM Plex Mono",ui-monospace,Consolas,monospace)} .vsp text{font-size:13px;fill:var(--ie-ink,#1c232b)} .vsp .sm{font-size:11.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .xs{font-size:10.5px;fill:var(--ie-ink-2,#4a5561)} .vsp .b{font-weight:600} .vsp .hd{font-family:var(--ie-font-ui,Archivo,"Helvetica Neue",Arial,sans-serif);font-size:15px;font-weight:700;fill:var(--ie-ink,#1c232b)} .vsp .lg{font-size:20px;font-weight:700} .vsp .n{fill:var(--ie-free,#fff);stroke:var(--ie-ink-2,#4a5561);stroke-width:1.2} .vsp .n-c{fill:var(--ie-compute-bg,#d9efec);stroke:var(--ie-compute,#0e7c72);stroke-width:1.3} .vsp .n-m{fill:var(--ie-memory-bg,#f6e8c8);stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .n-s{fill:var(--ie-shared-bg,#e5e1f8);stroke:var(--ie-shared,#5b47c9);stroke-width:1.3} .vsp .n-x{fill:var(--ie-waste-bg,#f6dade);stroke:var(--ie-waste,#b42b3e);stroke-width:1.3} .vsp .n-p{fill:var(--ie-paper-2,#eceee9);stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .n-mm{fill:var(--ie-memory,#b5790a);fill-opacity:.5;stroke:var(--ie-memory,#b5790a);stroke-width:1.3} .vsp .grp{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1;stroke-dasharray:5 4;opacity:.75} .vsp .grp-m{fill:var(--ie-memory,#b5790a);fill-opacity:.06;stroke:var(--ie-memory,#b5790a);stroke-width:1.2;stroke-dasharray:6 4} .vsp .w-i{fill:none;stroke:var(--ie-ink-2,#4a5561);stroke-width:1.3} .vsp .w-c{fill:none;stroke:var(--ie-compute,#0e7c72);stroke-width:1.4} .vsp .w-m{fill:none;stroke:var(--ie-memory,#b5790a);stroke-width:1.4} .vsp .w-s{fill:none;stroke:var(--ie-shared,#5b47c9);stroke-width:1.4} .vsp .w-x{fill:none;stroke:var(--ie-waste,#b42b3e);stroke-width:1.4} .vsp .dash{stroke-dasharray:4 3} .vsp .rule{fill:none;stroke:var(--ie-rule,#d5d9d3);stroke-width:1} .vsp .f-i{fill:var(--ie-ink-2,#4a5561)} .vsp .f-c{fill:var(--ie-compute,#0e7c72)} .vsp .f-m{fill:var(--ie-memory,#b5790a)} .vsp .f-s{fill:var(--ie-shared,#5b47c9)} .vsp .f-x{fill:var(--ie-waste,#b42b3e)}</style>
+<defs><marker id="stack-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-i"/></marker><marker id="stack-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-c"/></marker><marker id="stack-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-m"/></marker><marker id="stack-as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-s"/></marker><marker id="stack-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-x"/></marker></defs>
+<text x="20" y="20" class="xs b f-s">architecture decides HOW MUCH</text>
+<rect x="20" y="30" width="170" height="24" rx="7" class="n-s"/>
+<text x="105" y="46.5" text-anchor="middle" class="xs b">MHA → 8,192</text>
+<rect x="20" y="60" width="170" height="24" rx="7" class="n-s"/>
+<text x="105" y="76.5" text-anchor="middle" class="xs b">GQA-8 → 2,048</text>
+<rect x="20" y="90" width="170" height="24" rx="7" class="n-s"/>
+<text x="105" y="106.5" text-anchor="middle" class="xs b">MLA → 576</text>
+<rect x="230" y="50" width="150" height="46" rx="7" class="n-m"/>
+<circle cx="238" cy="58" r="2.6" class="f-m"/>
+<text x="305" y="71" text-anchor="middle" class="b">KV cache</text>
+<text x="305" y="86" text-anchor="middle" class="xs">per token, per layer</text>
+<rect x="420" y="50" width="150" height="46" rx="7" class="n"/>
+<circle cx="428" cy="58" r="2.6" class="f-i"/>
+<text x="495" y="71" text-anchor="middle" class="b">paged allocator</text>
+<text x="495" y="86" text-anchor="middle" class="xs">block table · 16 tok</text>
+<rect x="610" y="50" width="140" height="46" rx="7" class="n-m"/>
+<circle cx="618" cy="58" r="2.6" class="f-m"/>
+<text x="680" y="71" text-anchor="middle" class="b">GPU HBM</text>
+<text x="680" y="86" text-anchor="middle" class="xs">scattered blocks</text>
+<rect x="790" y="50" width="190" height="46" rx="7" class="n-c"/>
+<circle cx="798" cy="58" r="2.6" class="f-c"/>
+<text x="885" y="71" text-anchor="middle" class="b">FlashAttention</text>
+<text x="885" y="86" text-anchor="middle" class="xs">FlashInfer · FlashMLA</text>
+<rect x="405" y="128" width="180" height="40" rx="7" class="n-s"/>
+<circle cx="413" cy="136" r="2.6" class="f-s"/>
+<text x="495" y="146" text-anchor="middle" class="b">prefix sharing</text>
+<text x="495" y="161" text-anchor="middle" class="xs">refcount · copy-on-write</text>
+<path d="M190,73 L228,73" class="w-s" marker-end="url(#stack-as)"/>
+<path d="M380,73 L418,73" class="w-m" marker-end="url(#stack-am)"/>
+<path d="M570,73 L608,73" class="w-i" marker-end="url(#stack-ai)"/>
+<path d="M750,73 L788,73" class="w-m" marker-end="url(#stack-am)"/>
+<path d="M495,128 L495,98" class="w-s dash" marker-end="url(#stack-as)"/>
+<path d="M885,96 L885,130" class="w-c" marker-end="url(#stack-ac)"/>
+<text x="885" y="146" text-anchor="middle" class="sm b">next token</text>
+<text x="495" y="188" text-anchor="middle" class="xs b">WHERE it lives</text>
+<text x="885" y="170" text-anchor="middle" class="xs b">HOW FAST it is read</text>
+<rect x="20" y="206" width="960" height="36" rx="5" class="n-s"/>
+<text x="34" y="229" class="sm b">1 · MODEL ARCHITECTURE</text>
+<text x="290" y="229" class="xs">GQA · MQA · MLA · CLA · YOCO · hybrid SSM</text>
+<text x="966" y="229" text-anchor="end" class="xs b f-s">this page</text>
+<rect x="20" y="248" width="960" height="36" rx="5" class="n-m"/>
+<text x="34" y="271" class="sm b">2 · CACHE DESIGN</text>
+<text x="290" y="271" class="xs">paged KV · prefix cache · KV quantization · offloading</text>
+<text x="966" y="271" text-anchor="end" class="xs">steps 6–8, 11</text>
+<rect x="20" y="290" width="960" height="36" rx="5" class="n-c"/>
+<text x="34" y="313" class="sm b">3 · KERNEL</text>
+<text x="290" y="313" class="xs">FlashAttention · FlashMLA · fused kernels · Tensor Cores</text>
+<text x="966" y="313" text-anchor="end" class="xs">step 10</text>
+<rect x="20" y="332" width="960" height="36" rx="5" class="n"/>
+<text x="34" y="355" class="sm b">4 · RUNTIME / SCHEDULING</text>
+<text x="290" y="355" class="xs">continuous batching · speculative decoding · P/D split · TP/EP</text>
+<text x="966" y="355" text-anchor="end" class="xs">steps 9, 12</text>
+<rect x="20" y="374" width="960" height="36" rx="5" class="n-p"/>
+<text x="34" y="397" class="sm b">5 · HARDWARE</text>
+<text x="290" y="397" class="xs">HBM capacity and bandwidth · Tensor Cores · NVLink · PCIe</text>
+<text x="966" y="397" text-anchor="end" class="xs">step 3</text>
+</svg>

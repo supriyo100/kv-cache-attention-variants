@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {%- set desc = (page.meta.description if page and page.meta and page.meta.description else config.site_description) | striptags | trim -%}
+  {%- set ptitle = (page.meta.title if page and page.meta and page.meta.title else (page.title if page and page.title and not page.is_homepage else "Inference engineering, from tokens to GPU systems")) -%}
+  {%- set url = page.canonical_url if page and page.canonical_url else config.site_url -%}
+  {%- set image = config.site_url ~ "assets/social-card.png" -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@87.5,400..800&family=IBM+Plex+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+  <meta property="og:type" content="{{ 'website' if page and page.is_homepage else 'article' }}">
+  <meta property="og:site_name" content="{{ config.site_name }}">
+  <meta property="og:title" content="{{ ptitle }}">
+  <meta property="og:description" content="{{ desc }}">
+  <meta property="og:url" content="{{ url }}">
+  <meta property="og:image" content="{{ image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A request's logical KV blocks mapped onto scattered physical GPU blocks">
+  <meta name="author" content="{{ config.site_author }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ ptitle }}">
+  <meta name="twitter:description" content="{{ desc }}">
+  <meta name="twitter:image" content="{{ image }}">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "{{ 'WebSite' if page and page.is_homepage else 'TechArticle' }}",
+    "headline": {{ ptitle | tojson }},
+    "description": {{ desc | tojson }},
+    "url": {{ url | tojson }},
+    "image": {{ image | tojson }},
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": {{ config.site_author | tojson }},
+      "url": "https://github.com/supriyo100",
+      "sameAs": [
+        "https://github.com/supriyo100"{% if config.extra.author.linkedin %},
+        {{ config.extra.author.linkedin | tojson }}{% endif %}
+      ]
+    }
+  }
+  </script>
+{% endblock %}
+
+{% block footer %}
+  <div class="ie-footer-note md-typeset">
+    <p>
+      Written and maintained by <a href="https://github.com/supriyo100">Supriyo Chakraborty</a>{% if config.extra.author.linkedin %}
+      · <a href="{{ config.extra.author.linkedin }}" rel="me">LinkedIn</a>{% endif %}.
+      Every number on this site is either derived on the page or produced by tested code in
+      <a href="https://github.com/supriyo100/kv-cache-attention-variants/tree/main/src/inference_lab"><code>inference_lab</code></a>.
+      Found an error? <a href="https://github.com/supriyo100/kv-cache-attention-variants/issues/new">Open an issue</a>.
+    </p>
+  </div>
+  {{ super() }}
+{% endblock %}

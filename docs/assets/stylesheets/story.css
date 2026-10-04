@@ -1,0 +1,130 @@
+/* Excalidraw posters and story plates, produced by hooks/embeds.py and tools/story_plates.py. */
+
+/* ---- Excalidraw poster ---------------------------------------------------------------
+   fit:    the drawing at column width, page scrolls, no inner scrollbars.
+   zoomed: a fixed-height stage that pans in both directions.                            */
+.md-typeset .xd-poster { position: relative; scroll-margin-top: 5.2rem; }
+.xd-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem;
+  padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--ie-rule);
+}
+.xd-title { flex: 1 1 16rem; min-width: 0; font: 600 0.74rem/1.35 var(--ie-font-ui); color: var(--ie-ink); }
+.xd-tools {
+  display: inline-flex; flex: none; align-items: stretch; height: 1.7rem;
+  border: 1px solid var(--ie-rule); border-radius: 5px; overflow: hidden; background: var(--ie-free);
+}
+.xd-tools button, .xd-tools output {
+  display: inline-flex; align-items: center; justify-content: center; margin: 0; padding: 0 0.6rem;
+  font: 600 0.64rem/1 var(--ie-font-ui); color: var(--ie-ink-2); background: transparent; border: 0;
+}
+.xd-tools button { cursor: pointer; }
+.xd-tools > * + * { border-left: 1px solid var(--ie-rule); }
+.xd-tools [data-act="in"], .xd-tools [data-act="out"] { width: 1.8rem; padding: 0; font-size: 0.85rem; }
+.xd-tools output { min-width: 4.6rem; font-family: var(--ie-font-mono); font-weight: 500; color: var(--ie-ink); }
+.xd-tools button:hover { color: var(--ie-ink); background: var(--ie-paper-2); }
+.xd-tools button:focus-visible, .xd-sections button:focus-visible { outline: 2px solid var(--ie-link); outline-offset: -2px; }
+
+.xd-sections {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem;
+  padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--ie-rule);
+}
+.xd-sections__label {
+  margin-right: 0.3rem; font: 600 0.58rem var(--ie-font-mono); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ie-memory);
+}
+.xd-sections button {
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;
+  padding: 0.28rem 0.6rem; font: 500 0.62rem/1.2 var(--ie-font-ui); color: var(--ie-ink-2);
+  background: transparent; border: 1px solid var(--ie-rule); border-radius: 999px;
+}
+.xd-sections button:hover { color: var(--ie-ink); border-color: var(--ie-ink-2); }
+.xd-sections button.on { color: var(--ie-ink); border-color: var(--ie-memory); background: var(--ie-memory-bg); }
+@media (max-width: 44.9375em) {
+  /* phones: one swipeable row instead of several wrapped rows */
+  .xd-sections { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .xd-sections::-webkit-scrollbar { display: none; }
+  .xd-sections button { flex: none; }
+  .xd-title { flex-basis: 100%; }
+}
+
+.md-typeset .xd-poster .xd-stage { background: #ffffff; cursor: zoom-in; }
+[data-md-color-scheme="slate"] .md-typeset .xd-poster .xd-stage { background: #161616; }
+.md-typeset .xd-poster .xd-stage img.xd-svg { display: block; width: 100%; max-width: none; height: auto; user-select: none; -webkit-user-drag: none; }
+.md-typeset .xd-poster.zoomed .xd-stage {
+  height: min(80vh, 56rem); overflow: auto; cursor: grab; scrollbar-width: thin;
+}
+.md-typeset .xd-poster.zoomed .xd-stage.dragging { cursor: grabbing; user-select: none; }
+.xd-stage:focus-visible { outline: 2px solid var(--ie-link); outline-offset: -2px; }
+.xd-hint { color: var(--ie-ink-2); }
+@media (hover: none) { .xd-hint { display: none; } }
+
+/* full screen: the figure fills the screen, the stage takes the rest and always pans */
+.md-typeset .xd-poster:fullscreen {
+  display: flex; flex-direction: column; margin: 0; border: 0; border-radius: 0; background: var(--ie-paper);
+}
+.md-typeset .xd-poster:fullscreen .xd-stage { flex: 1 1 auto; height: auto; min-height: 0; overflow: auto; }
+.md-typeset .xd-poster:fullscreen .xd-live, .md-typeset .xd-poster:fullscreen figcaption { display: none; }
+
+/* ---- Story plates -------------------------------------------------------------------- */
+body:has(.vs-plate) .md-main__inner.md-grid { max-width: 76rem; }
+.md-typeset .vs-plate {
+  margin: 1.6em 0 1.2em; border: 1px solid var(--ie-rule); border-radius: 10px; overflow: hidden;
+  background: var(--ie-paper);
+}
+.vs-plate__bar {
+  display: flex; align-items: baseline; gap: 0.8em; padding: 0.6em 1em;
+  border-bottom: 1px solid var(--ie-rule); font-family: var(--ie-font-mono);
+}
+.vs-plate__no {
+  flex: none; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ie-memory); font-weight: 600;
+}
+.vs-plate__title { font-size: 0.72rem; font-weight: 600; color: var(--ie-ink); }
+.md-typeset .vs-plate__open { margin-left: auto; color: var(--ie-ink-2); font-size: 0.8rem; }
+.vs-plate__canvas {
+  overflow-x: auto; padding: 0.9rem 0.6rem 0.6rem;
+  background-color: var(--ie-free);
+  background-image:
+    linear-gradient(var(--ie-paper-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ie-paper-2) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.vs-plate__canvas svg { display: block; width: 100%; min-width: 760px; height: auto; margin: 0 auto; }
+
+/* ---- Chapter map, insight cards, sheet links ----------------------------------------- */
+.md-typeset .vs-map {
+  list-style: none; margin: 1.2em 0 1.6em; padding: 0; display: grid; gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); counter-reset: ch;
+}
+.md-typeset .vs-map li { margin: 0; counter-increment: ch; }
+.md-typeset .vs-map a {
+  display: block; height: 100%; padding: 0.55em 0.75em; border: 1px solid var(--ie-rule); border-radius: 6px;
+  font: 0.7rem/1.4 var(--ie-font-ui); color: var(--ie-ink);
+}
+.md-typeset .vs-map a::before {
+  content: counter(ch, decimal-leading-zero); display: block; font: 600 0.6rem var(--ie-font-mono);
+  color: var(--ie-memory); letter-spacing: 0.1em;
+}
+.md-typeset .vs-map a:hover { border-color: var(--ie-ink-2); }
+.md-typeset .vs-map small { display: block; color: var(--ie-ink-2); font-size: 0.62rem; }
+
+.md-typeset .vs-cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0.8rem; margin: 0 0 2em;
+}
+.md-typeset .vs-card {
+  border: 1px solid var(--ie-rule); border-radius: 8px; padding: 0.75em 0.95em; background: var(--ie-paper);
+  font: 0.7rem/1.55 var(--ie-font-mono); color: var(--ie-ink-2);
+}
+.md-typeset .vs-card h4 { margin: 0 0 0.45em; font: 700 0.76rem var(--ie-font-ui); color: var(--ie-ink); }
+.md-typeset .vs-card h4::before {
+  content: ""; display: inline-block; width: 0.5em; height: 0.5em; border-radius: 50%; margin-right: 0.5em;
+  background: var(--dot, var(--ie-ink-2)); vertical-align: 0.08em;
+}
+.md-typeset .vs-card.c { --dot: var(--ie-compute); }
+.md-typeset .vs-card.m { --dot: var(--ie-memory); }
+.md-typeset .vs-card.s { --dot: var(--ie-shared); }
+.md-typeset .vs-card.x { --dot: var(--ie-waste); }
+.md-typeset .vs-card ul { margin: 0; padding-left: 1em; }
+.md-typeset .vs-card li { margin: 0 0 0.25em; }
+.md-typeset .vs-card b { color: var(--ie-ink); }
+.md-typeset .vs-sheet { font: 0.68rem/1.6 var(--ie-font-mono); color: var(--ie-ink-2); margin: -0.6em 0 2em; }

@@ -1,0 +1,74 @@
+{% extends "main.html" %}
+
+{% set steps = [
+  ("path/01-the-request.html", "The request", "What happens between “send” and the first token, and which clock each metric reads."),
+  ("path/02-prefill-and-decode.html", "Prefill and decode", "Two workloads in one model: one is compute-bound, the other waits on memory."),
+  ("path/03-attention-cost.html", "What attention costs", "FLOPs and bytes of softmax(QKᵀ/√d)V, and which tensor grows as T²."),
+  ("path/04-kv-cache.html", "The KV cache", "Why K and V are cached, the memory equation, and how fast it fills a GPU."),
+  ("path/05-attention-variants.html", "MHA, MQA, GQA, MLA", "Four ways to shrink what each token leaves behind, including MLA’s absorbed projections."),
+  ("path/06-fragmentation.html", "Fragmentation", "Reservation, internal and external waste: free memory you cannot use."),
+  ("path/07-paged-kv.html", "Paged KV", "Block tables let a contiguous sequence live in scattered GPU memory."),
+  ("path/08-prefix-sharing.html", "Prefix sharing", "One copy of a shared prompt, reference counts, copy-on-write, radix trees."),
+  ("path/09-scheduling.html", "Scheduling", "Which requests run this iteration, and what happens when blocks run out."),
+  ("path/10-flashattention.html", "FlashAttention", "Tiling and the online softmax: exact attention without the T×T matrix."),
+  ("path/11-long-context.html", "Long context", "At 128K tokens six things break; each fix addresses a different one."),
+  ("path/12-scaling-out.html", "Scaling out", "Quantization, speculative decoding, parallelism and prefill/decode disaggregation."),
+] %}
+
+{% block tabs %}
+  {{ super() }}
+  <section class="ie-hero" aria-labelledby="ie-hero-title">
+    <div class="ie-hero__inner">
+      <div class="ie-hero__text">
+        <h1 id="ie-hero-title">Inference engineering, from tokens to GPU systems</h1>
+        <p class="ie-hero__lede">
+          A large model answers one token at a time, and every token re-reads everything the
+          model has seen. Serving it well is a memory problem first: where each byte of the
+          KV cache lives, who shares it, when it moves, and what the GPU waits on.
+          This notebook works through it one step at a time, with the derivation, a diagram,
+          tested code and the trade-offs for each idea.
+        </p>
+        <p class="ie-hero__actions">
+          <a class="md-button md-button--primary" href="path/index.html">Start the path</a>
+          <a class="md-button" href="lab/tools.html">Open the calculators</a>
+        </p>
+      </div>
+      <figure class="ie-hero__figure">
+        <div class="ie-memmap" data-widget="memmap" role="img"
+             aria-label="Request A's logical blocks 0 to 5 are contiguous; the block table maps them to scattered physical blocks among other requests' blocks.">
+          <noscript>Request A's logical blocks map through a block table to scattered physical GPU blocks.</noscript>
+        </div>
+        <figcaption>
+          One request's KV cache is contiguous to the model (top) and scattered in GPU memory
+          (bottom). The block table between them is <a href="path/07-paged-kv.html">step 7</a>.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="ie-rail" aria-labelledby="ie-rail-title">
+    <h2 id="ie-rail-title">The path of one request</h2>
+    <p class="ie-rail__intro">
+      Follow a single request from arrival to its last token. Each topic appears at the
+      moment it becomes the bottleneck, so the order is the argument.
+    </p>
+    <ol class="ie-rail__list">
+      {% for href, title, q in steps %}
+      <li class="ie-rail__item">
+        {% set n = loop.index %}
+        <a href="{{ href }}">
+          <span class="ie-strip" aria-hidden="true">{% for i in range(12) %}<i class="{{ 'on' if i < n else '' }}"></i>{% endfor %}</span>
+          <span class="ie-rail__num">{{ n }}</span>
+          <span class="ie-rail__title">{{ title }}</span>
+          <span class="ie-rail__q">{{ q }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  <div class="ie-home-md">
+    {{ page.content }}
+  </div>
+{% endblock %}
