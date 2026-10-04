@@ -12,6 +12,32 @@
 
 ---
 
+## 👋 About this repository
+
+This repo documents and breaks down the concepts of the upstream course repository,
+[**sourangshupal/kv-cache-attention-variants**](https://github.com/sourangshupal/kv-cache-attention-variants).
+The course code and session pages come from upstream. On top of them, this fork adds study material
+that explains each idea visually:
+
+- **18 Excalidraw diagrams** in [`docs/assets/excalidraw/`](docs/assets/excalidraw/) showing the flows and side-by-side comparisons:
+  MHA vs MQA vs GQA vs MLA, the KV cache memory formula with worked numbers, RoPE, the roofline
+  model, PagedAttention and KV memory management, the serving stack and scheduler, an A100 VRAM
+  budget, and a map of today's KV cache optimizations (GQA, MLA, cross-layer sharing, TransMLA,
+  KV quantisation, eviction, prefix caching, Flash kernels).
+- **[`docs/study/explanation.md`](docs/study/explanation.md)**: a deep-dive walkthrough from tokens to the KV cache, module by module.
+- **[`docs/study/interview_questions.md`](docs/study/interview_questions.md)**: interview questions for LLM inference roles.
+
+On the docs site every drawing is embedded next to the text it explains, as an image with a live
+pan-and-zoom viewer, so the sessions, the HTML diagrams and the drawings read as one document.
+To edit a drawing, open the `.excalidraw` file with the
+[Excalidraw VS Code extension](https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor)
+or drag it onto [excalidraw.com](https://excalidraw.com).
+
+**Feel free to use, share and improve it.** If you spot a mistake or want to add a diagram,
+open an issue or a pull request.
+
+---
+
 ## 📖 Description
 
 Every token an LLM generates requires an attention computation over everything generated so far. Without optimization, that computation is re-done from scratch at every step and its cost grows linearly — this is **naive decoding**, and it is why inference is expensive.
@@ -53,14 +79,25 @@ kv-cache-attention-variants/
 │   ├── 02_kv_cache_memory_math.ipynb
 │   ├── 03_mha_recap.ipynb
 │   └── 04_mqa.ipynb
-├── docs/                           # MkDocs content — one page per session
-│   └── diagrams/                   # 12 standalone interactive Archify diagrams
+├── docs/                           # MkDocs site content
+│   ├── index.md                    # Home: course map
+│   ├── sessions/                   # 00–10, one page per session, diagrams embedded inline
+│   ├── beyond/                     # Variants compared, SOTA map, inference problems, serving (this fork)
+│   ├── study/                      # explanation.md, interview_questions.md (this fork)
+│   ├── gallery.md                  # Every diagram on one page
+│   └── assets/
+│       ├── excalidraw/             # 18 .excalidraw drawings + generated .svg (this fork)
+│       ├── diagrams/               # 12 standalone interactive Archify diagrams (D01–D12)
+│       ├── viewer/excalidraw.html  # Live read-only Excalidraw viewer used by the embeds
+│       └── images/                 # Plots from the notebooks
+├── hooks/embeds.py                 # MkDocs hook that turns diagram markers into embeds
+├── tools/excalidraw_export/        # Node script: .excalidraw → .svg (re-run after editing a drawing)
 ├── mkdocs.yml                      # MkDocs (Material) configuration
 ├── pyproject.toml                  # Project metadata + dependency groups
 └── .github/workflows/docs.yml      # Auto-deploys the docs site to GitHub Pages
 ```
 
-The 12 diagrams in `docs/diagrams/` are self-contained HTML — open them directly in a browser or explore them through the hosted docs. They cover the curriculum dependency graph, cache-shape comparisons across MHA/MQA/GQA/MLA, RoPE rotation, FlashAttention tiling, SDPA backend dispatch, and PagedAttention block tables.
+The 12 diagrams in `docs/assets/diagrams/` are self-contained HTML — open them directly in a browser or explore them through the hosted docs. They cover the curriculum dependency graph, cache-shape comparisons across MHA/MQA/GQA/MLA, RoPE rotation, FlashAttention tiling, SDPA backend dispatch, and PagedAttention block tables.
 
 ---
 
@@ -118,14 +155,28 @@ uv sync --extra docs && uv run mkdocs serve
 
 Then open http://127.0.0.1:8000 to browse the module with the interactive diagrams.
 
+```bash
+# 🖼️ After editing a drawing in docs/assets/excalidraw/, regenerate its SVG (needs Node + Chrome/Edge)
+cd tools/excalidraw_export && npm install && node export.mjs          # all drawings
+node export.mjs gqa mla                                              # only these
+```
+
 ---
 
 ## 📚 Docs Site
 
-Every push to `main` that touches `docs/`, `mkdocs.yml`, or `teaching_notebooks/` rebuilds and redeploys the site via GitHub Actions:
+Every push to `main` that touches `docs/`, `hooks/`, `mkdocs.yml`, or `teaching_notebooks/` rebuilds and redeploys the site via GitHub Actions:
 
-- **Site:** https://sourangshupal.github.io/kv-cache-attention-variants/
-- **Diagram index:** https://sourangshupal.github.io/kv-cache-attention-variants/diagrams/
+- **Upstream course site:** https://sourangshupal.github.io/kv-cache-attention-variants/
+- **This fork (with the Excalidraw diagrams), once GitHub Pages is enabled:** https://supriyo100.github.io/kv-cache-attention-variants/
+
+---
+
+## 🤝 Contributing
+
+Everyone is welcome to use this material and to make it better. Fix a number, sharpen an
+explanation, or add a diagram, then open a pull request. Credit for the course itself goes to the
+[upstream repository](https://github.com/sourangshupal/kv-cache-attention-variants).
 
 ---
 
