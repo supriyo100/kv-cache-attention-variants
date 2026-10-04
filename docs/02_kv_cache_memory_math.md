@@ -4,7 +4,6 @@
 every step. The fix — caching K and V — isn't free: it costs memory. This
 notebook derives exactly how much.
 
-
 ## Why only K and V get cached (not Q, not outputs)
 
 At each decode step, only one new Query is needed (for the new token) — it's
@@ -21,8 +20,6 @@ $$
 $$
 
 The factor of 2 is for K **and** V.
-
-
 
 ```python
 from kv_cache_variants.memory_calc import kv_cache_bytes, human_bytes
@@ -45,9 +42,7 @@ for name, cfg in configs.items():
     total = kv_cache_bytes(seq_len=4096, batch_size=1, dtype_bytes=2, **cfg)
     table.add_row(name, human_bytes(total))
 console.print(table)
-
 ```
-
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">    KV cache size at     </span>
 <span style="font-style: italic">   seq_len=4096, fp16,   </span>
@@ -62,9 +57,6 @@ console.print(table)
 └─────────┴─────────────┘
 </pre>
 
-
-
-
 ```python
 table = Table(title="fp16 vs fp32, 7B-ish config, seq_len=4096")
 table.add_column("dtype")
@@ -75,9 +67,7 @@ for dtype_name, dtype_bytes in [("fp16/bf16", 2), ("fp32", 4)]:
                             seq_len=4096, dtype_bytes=dtype_bytes)
     table.add_row(dtype_name, str(dtype_bytes), human_bytes(total))
 console.print(table)
-
 ```
-
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">    fp16 vs fp32, 7B-ish config, seq_len=4096    </span>
 ┏━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
@@ -87,9 +77,6 @@ console.print(table)
 │ fp32      │ 4             │           4.00 GB │
 └───────────┴───────────────┴───────────────────┘
 </pre>
-
-
-
 
 ```python
 table = Table(title="batch-size scaling, 7B-ish config, seq_len=4096, fp16")
@@ -106,9 +93,7 @@ console.print(
     "serving many long-context requests concurrently is a memory problem, "
     "not just a compute problem."
 )
-
 ```
-
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">batch-size scaling, 7B-ish config,</span>
 <span style="font-style: italic">        seq_len=4096, fp16        </span>
@@ -122,23 +107,16 @@ console.print(
 └────────────┴───────────────────┘
 </pre>
 
-
-
-
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 <span style="font-weight: bold">Takeaway:</span> cache bytes scale LINEARLY with seq_len and batch_size, but multiplicatively with both together -- this 
 is why serving many long-context requests concurrently is a memory problem, not just a compute problem.
 </pre>
-
-
 
 ## Try it yourself
 
 Reproduce a row of `reference_tables/model_config_memory_worksheet.md` by
 hand: pick a config from that file, compute `KV_per_token` on paper, multiply
 by `seq_len`, then verify against `kv_cache_bytes(...)` below.
-
-
 
 ```python
 # Try it yourself: change these three numbers and recompute.
@@ -154,7 +132,6 @@ assert total == per_token * seq_len
 
     per-token: 128.00 KB, total @ seq_len=8192: 1.00 GB
 
-
 ```mermaid
 flowchart TD
     A[num_layers] --> E[KV_per_token]
@@ -166,7 +143,6 @@ flowchart TD
     G --> H[KV_cache_bytes]
 ```
 
-
 ## Recap
 
 Cache size is a simple product of 5 numbers. The one lever every attention
@@ -175,4 +151,3 @@ uses 1, GQA uses somewhere in between, MLA replaces heads with a compressed
 latent dimension entirely.
 
 You are now ready to move to `03_mha_recap.ipynb`.
-
